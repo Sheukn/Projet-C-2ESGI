@@ -13,6 +13,7 @@ struct unit{
     int def; // defense points 
     int weak; // weak against 0 = gunners | 1 = rocketeers | 2 = tanks | 3 = planes   
     int speed; // speed of the unit
+    int range; // range of the unit
 };
 
 struct player{
@@ -35,8 +36,9 @@ void init_player1(){
             player1.unit[i].hp = 100;
             player1.unit[i].atk = 10;
             player1.unit[i].def = 5;
-            player1.unit[i].weak = 3;
+            player1.unit[i].weak = 3; // weak against planes
             player1.unit[i].speed = 3;
+            player1.unit[i].range = 1;
         }
         else if(i < 4){ // 2 rocketeers
             player1.unit[i].id = 1;
@@ -45,8 +47,9 @@ void init_player1(){
             player1.unit[i].hp = 100;
             player1.unit[i].atk = 20;
             player1.unit[i].def = 10;
-            player1.unit[i].weak = 0;
+            player1.unit[i].weak = 0; // weak against gunners
             player1.unit[i].speed = 2;
+            player1.unit[i].range = 2;
         }
         else if(i < 6){ // 2 tanks
             player1.unit[i].id = 2;
@@ -55,8 +58,9 @@ void init_player1(){
             player1.unit[i].hp = 100;
             player1.unit[i].atk = 30;
             player1.unit[i].def = 15;
-            player1.unit[i].weak = 1;
+            player1.unit[i].weak = 1; // weak against rocketeers
             player1.unit[i].speed = 5;
+            player1.unit[i].range = 1;
         }
         else{ // 2 planes
             player1.unit[i].id = 3;
@@ -65,8 +69,9 @@ void init_player1(){
             player1.unit[i].hp = 100;
             player1.unit[i].atk = 40;
             player1.unit[i].def = 20;
-            player1.unit[i].weak = 2;
+            player1.unit[i].weak = 2; // weak against tanks
             player1.unit[i].speed = 10;
+            player1.unit[i].range = 1;
         }
     }
 }
