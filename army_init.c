@@ -1,5 +1,3 @@
-#include <stdio.h>
-
 struct position {
     int x; // x coordinate
     int y; // y coordinate
