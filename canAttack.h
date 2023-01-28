@@ -10,12 +10,10 @@ int isReachable(unit unit, char** map){
     for(int i = x - range; i <= x + range; i++){
         for(int j = y - range; j <= y + range; j++){
             if(map[i][j] == 'E'){
-                printf("Enemy in range\n");
+                Beep(523, 100);
                 return 1;
             }
         }
     }
-
-    printf("No enemy in range\n");
     return 0;
 }
