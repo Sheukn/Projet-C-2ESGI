@@ -39,7 +39,7 @@ void init_player(player* player, int id){
             player->army[i].atk = 10;
             player->army[i].def = 5;
             player->army[i].weak = 2; // Weak against horseman
-            player->army[i].speed = 2;
+            player->army[i].speed = 1;
             player->army[i].range = 5;
             player->army[i].symbol = 'C';
         } // Catapults
@@ -49,7 +49,7 @@ void init_player(player* player, int id){
             player->army[i].atk = 10;
             player->army[i].def = 5;
             player->army[i].weak = 1; // Weak against archer
-            player->army[i].speed = 2;
+            player->army[i].speed = 4;
             player->army[i].range = 1;
             player->army[i].symbol = 'S';
         } // Spearman
