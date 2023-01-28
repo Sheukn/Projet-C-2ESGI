@@ -22,3 +22,9 @@ typedef struct {
     int remaining_units; 
     unit* army; // 2 knights | 2 archers | 2 horseman | 2 catapults | 2 spearman
 }player;
+
+
+typedef struct {
+    unit* unit;
+    char symbol;
+}cell;
