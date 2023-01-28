@@ -12,6 +12,8 @@ typedef struct{
     int speed; // speed of the unit
     int range; // range of the unit
     char symbol; // symbol of the unit
+    int alive; // 1 = alive | 0 = dead
+    int team; // 1 = player1 | 2 = player2
     struct position pos; // position of the unit
 }unit;
 
