@@ -22,43 +22,44 @@ int main(){
     player2 = malloc(sizeof(player));
     init_player(player2, 2);
 
-    // Create grid 50x50 with ' ' as empty space
-    char **grid;
-    grid = malloc(sizeof(char*) * 50);
+    // Create map 50x50 with ' ' as empty space
+    cell **map;
+    map = malloc(sizeof(cell) * 50);
     for(int i = 0; i < 50; i++){
-        grid[i] = malloc(sizeof(char) * 50);
+        map[i] = malloc(sizeof(cell) * 50);
         for(int j = 0; j < 50; j++){
-            grid[i][j] = ' ';
+            map[i][j].symbol = ' ';
+            map[i][j].unit = NULL;
         }
     }
 
     //Create walls '#'
     for(int i = 0; i < 50; i++){
-        grid[i][0] = '#';
-        grid[i][49] = '#';
-        grid[0][i] = '#';
-        grid[49][i] = '#';
+        map[i][0].symbol = '#';
+        map[i][49].symbol = '#';
+        map[0][i].symbol = '#';
+        map[49][i].symbol = '#';
     }
 
-    initPlacement(grid, player1, player2);
+    initPlacement(map, player1, player2);
 
     int currentUnit = 0;
     int turn = 0;
 
     while(1){
         
-        if(turn % 2 == 0)            displayRange(player1->army[currentUnit % 10], grid);
-        else                         displayRange(player2->army[currentUnit % 10], grid);
+        if(turn % 2 == 0)            displayRange(player1->army[currentUnit % 10], map);
+        else                         displayRange(player2->army[currentUnit % 10], map);
         
         for(int i = 0; i < 50; i++){
             for(int j = 0; j < 50; j++){
-                printf("%c ", grid[i][j]);
+                printf("%c ", map[i][j].symbol);
             }
             printf("\n");
         }
 
         if (turn % 2 == 0){
-            switch (moveUnit(grid, &player1->army[currentUnit % 10])){
+            switch (moveUnit(map, &player1->army[currentUnit % 10])){
                 case 1 : 
                     currentUnit++;
                     break;
@@ -69,10 +70,10 @@ int main(){
                     turn++;
                     break;
             }
-            inRange(player1->army[currentUnit % 10], grid);
+            inRange(player1->army[currentUnit % 10], map);
         }
         else{
-            switch (moveUnit(grid, &player2->army[currentUnit % 10])){
+            switch (moveUnit(map, &player2->army[currentUnit % 10])){
                 case 1 : 
                     currentUnit++;
                     break;
@@ -83,14 +84,14 @@ int main(){
                     turn++;
                     break;
             }
-            inRange(player1->army[currentUnit % 10], grid);
+            inRange(player1->army[currentUnit % 10], map);
         }
 
         // Clear the range
         for(int i = 0; i < 50; i++){
             for(int j = 0; j < 50; j++){
-                if(grid[i][j] == 'R'){
-                    grid[i][j] = ' ';
+                if( map[i][j].symbol == 'R') {
+                    map[i][j].symbol = ' ';
                 }
             }
         }
@@ -101,5 +102,5 @@ int main(){
     free(player1);
     free(player2->army);
     free(player2);
-    free(grid);
+    free(map);
     }
