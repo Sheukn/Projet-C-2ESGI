@@ -11,6 +11,7 @@ void init_player(player* player, int id){
             player->army[i].weak = 1; // Weak against archer
             player->army[i].speed = 3;
             player->army[i].range = 1;
+            player->army[i].symbol = 'K';
         } // Knights
         else if(i < 4){
             player->army[i].type = 1;
@@ -20,6 +21,7 @@ void init_player(player* player, int id){
             player->army[i].weak = 2; // Weak against horseman
             player->army[i].speed = 3;
             player->army[i].range = 2;
+            player->army[i].symbol = 'A';
         } // Archers
         else if(i < 6){
             player->army[i].type = 2;
@@ -29,6 +31,7 @@ void init_player(player* player, int id){
             player->army[i].weak = 4; // Weak against spearman
             player->army[i].speed = 5;
             player->army[i].range = 1;
+            player->army[i].symbol = 'H';
         } // Horseman
         else if(i < 8){
             player->army[i].type = 3;
@@ -38,6 +41,7 @@ void init_player(player* player, int id){
             player->army[i].weak = 2; // Weak against horseman
             player->army[i].speed = 2;
             player->army[i].range = 5;
+            player->army[i].symbol = 'C';
         } // Catapults
         else {
             player->army[i].type = 4;
@@ -47,6 +51,7 @@ void init_player(player* player, int id){
             player->army[i].weak = 1; // Weak against archer
             player->army[i].speed = 2;
             player->army[i].range = 1;
+            player->army[i].symbol = 'S';
         } // Spearman
     }
 }
