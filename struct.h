@@ -11,6 +11,7 @@ typedef struct{
     int weak; // weak againsts 0 = knight | 1 = archer | 2 = horseman | 3 = catapult | 4 = spearman   
     int speed; // speed of the unit
     int range; // range of the unit
+    char symbol; // symbol of the unit
     struct position pos; // position of the unit
 }unit;
 
