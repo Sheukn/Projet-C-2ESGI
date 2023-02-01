@@ -1,3 +1,5 @@
+
+
 void fight(unit attacker , unit defender){
     if (attacker.type == defender.weak)
         defender.hp -= attacker.atk * 2 - defender.def;
@@ -16,12 +18,14 @@ int inRange(unit unit, cell** map){
 
     //check if there is an enemy in range
     for(int i = unit.pos.x - unit.range; i <= unit.pos.x + unit.range; i++){
-            for(int j = unit.pos.y - unit.range; j <= unit.pos.y + unit.range; j++){
-                if (i == x && j == y)
+        for(int j = unit.pos.y - unit.range; j <= unit.pos.y + unit.range; j++){
+            if(i >= 0 && i < 50 && j >= 0 && j < 50){
+                if (i == x && j == y && map[i][j].symbol == '#')
                     continue;
                 if(map[i][j].unit != NULL && map[i][j].unit->team != unit.team && map[i][j].unit->alive == 1){
                     Beep(523, 100);
                     return 1;
+                }
             }
         }
     }
@@ -39,9 +43,17 @@ void displayRange(unit unit, cell** map){
     //display range
     for(int i = unit.pos.x - unit.range; i <= unit.pos.x + unit.range; i++){
             for(int j = unit.pos.y - unit.range; j <= unit.pos.y + unit.range; j++){
-                if(map[i][j].symbol != '#' && map[i][j].symbol != 'A' && map[i][j].symbol != 'E' && map[i][j].symbol != 'H' && map[i][j].symbol != 'K' && map[i][j].symbol != 'S' && map[i][j].symbol != 'C'){
-                    map[i][j].symbol = 'R' ;
-                }
+                if(i >= 0 && i < 50 && j >= 0 && j < 50)
+                    if(map[i][j].symbol != '#' && map[i][j].symbol != 'A' && map[i][j].symbol != 'E' && map[i][j].symbol != 'H' && map[i][j].symbol != 'K' && map[i][j].symbol != 'S' && map[i][j].symbol != 'C')
+                        map[i][j].symbol = 'R' ;
             }
     }
 }
+
+typedef struct{
+  unit *unit;
+  struct enemyList *next;
+}enemyList;
+
+
+
