@@ -6,6 +6,10 @@
         "windows.h": "c",
         "stdlib.h": "c",
         "canattack.h": "c",
-        "unitdeplacement.h": "c"
+        "unitdeplacement.h": "c",
+        "combatsystem.h": "c",
+        "sdl.h": "c",
+        "sdl_image.h": "c",
+        "army_init.h": "c"
     }
 }
