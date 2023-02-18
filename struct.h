@@ -26,7 +26,7 @@ typedef struct {
 
 typedef struct {
     unit* unit;
-    char symbol;
+    char type; // - = grass | # = water | F = forest | ^ = mountain
 }cell;
 
 typedef struct {

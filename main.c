@@ -47,17 +47,17 @@ int main(int argc, char *argv[]){
     for(int i = 0; i < 16; i++){
         map[i] = malloc(sizeof(cell) * 16);
         for(int j = 0; j < 16; j++){
-            map[i][j].symbol = '-';
+            map[i][j].type = '-';
             map[i][j].unit = NULL;
         }
     }
 
     //Create walls '#'
     for(int i = 0; i < 16; i++){
-        map[i][0].symbol = '#';
-        map[i][15].symbol = '#';
-        map[0][i].symbol = '#';
-        map[15][i].symbol = '#';
+        map[i][0].type = '#';
+        map[i][15].type = '#';
+        map[0][i].type = '#';
+        map[15][i].type = '#';
     }
     
     //Initialize cursor
@@ -81,40 +81,50 @@ int main(int argc, char *argv[]){
     {
         SDL_WaitEvent(&event);
  
-        switch (event.type)
-        {
-        case SDL_QUIT:
-            quit = true;
-            break;
-        case SDL_KEYDOWN:
-            switch (event.key.keysym.sym){
-                case SDLK_DOWN:
-                    cursor.pos.y += 1;
-                    break;
-
-            }
-            
+        switch (event.type){
+            case SDL_QUIT:
+                quit = true;
+                break;
+            case SDL_KEYDOWN:
+                switch (event.key.keysym.sym){
+                    case SDLK_DOWN:
+                        if(cursor.pos.y < 15)
+                            cursor.pos.y += 1;
+                        break;
+                    case SDLK_UP:
+                        if(cursor.pos.y > 0)
+                            cursor.pos.y -= 1;
+                        break;
+                    case SDLK_LEFT:
+                        if(cursor.pos.x > 0)
+                            cursor.pos.x -= 1;
+                        break;
+                    case SDLK_RIGHT:
+                        if(cursor.pos.x < 15)
+                            cursor.pos.x += 1;
+                        break;
+                }         
         }
         cursorPos.x = cursor.pos.x * 64;
         cursorPos.y = cursor.pos.y * 64;
 
-
+        moveUnit(map, &player1->army[0]);
         SDL_Rect screenPos;
         for(int i = 0; i < 16; i++){
             for(int j = 0; j < 16; j++){
                 
                 screenPos.x = i * 64;
                 screenPos.y = j * 64;
-                if(map[i][j].symbol == '-'){
+                if(map[i][j].type == '-'){
                     SDL_BlitSurface(grass_image, NULL, window, &screenPos);
                     
                 }
-                if(map[i][j].symbol == '#'){
+                if(map[i][j].type == '#'){
                     SDL_BlitSurface(ocean_image, NULL, window, &screenPos);
                     
                 }
                 if(map[i][j].unit != NULL){
-                    if(map[i][j].unit->type == 0){
+                    if(map[i][j].unit->type == 3){
                         SDL_BlitSurface(knight_image, NULL, window, &screenPos);
                         
                     }
