@@ -1,5 +1,5 @@
 int moveUnit(cell** map, unit* unit){
-        switch(getch()){
+        switch(getchar()){
             case 'a':
                 if(map[unit->pos.x][unit->pos.y - 1].symbol== ' ' || map[unit->pos.x][unit->pos.y - 1].symbol== 'R'){
                         map[unit->pos.x][unit->pos.y].symbol = ' ';

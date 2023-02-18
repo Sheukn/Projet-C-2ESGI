@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <conio.h>
-#include <windows.h>
 #include <stdbool.h>
+#include <SDL/SDL.h>
+#include <SDL/SDL_image.h>
 
 #include "struct.h"
 #include "army_init.h"
@@ -10,9 +10,28 @@
 #include "unitDeplacement.h"
 #include "combatSystem.h"
 
+int main(int argc, char *argv[]){
 
-int main(){
+    //SDL Initialisation
+    bool quit = false;
+    SDL_Event event;
+    int Init;
+    Init = SDL_Init(SDL_INIT_EVERYTHING);
+    SDL_Surface * window ;
+    window = SDL_SetVideoMode(1024, 1024, 32, SDL_HWSURFACE);
+    SDL_Surface * grass_image = SDL_LoadBMP("./ressources/grass.bmp");
+    SDL_Surface * ocean_image = SDL_LoadBMP("./ressources/ocean.bmp");
+    SDL_Surface * knight_image = IMG_Load("./ressources/knight.png");
+    SDL_Surface * cursor_image = IMG_Load("./ressources/cursor.png");
 
+    SDL_Rect position;
+    //position.x = (window->w - knight_image->w) / 2;
+    //position.y = (window->h - knight_image->h) / 2;
+
+
+    //SDL_BlitSurface(knight_image, NULL, window, &position);
+    //SDL_Flip(window);
+    
     // Initialize the players
     player* player1;
     player1 = malloc(sizeof(player));
@@ -22,85 +41,93 @@ int main(){
     player2 = malloc(sizeof(player));
     init_player(player2, 2);
 
-    // Create map 50x50 with ' ' as empty space
+    // Create map 16x16 with '-' as empty space
     cell **map;
-    map = malloc(sizeof(cell) * 50);
-    for(int i = 0; i < 50; i++){
-        map[i] = malloc(sizeof(cell) * 50);
-        for(int j = 0; j < 50; j++){
-            map[i][j].symbol = ' ';
+    map = malloc(sizeof(cell) * 16);
+    for(int i = 0; i < 16; i++){
+        map[i] = malloc(sizeof(cell) * 16);
+        for(int j = 0; j < 16; j++){
+            map[i][j].symbol = '-';
             map[i][j].unit = NULL;
         }
     }
 
     //Create walls '#'
-    for(int i = 0; i < 50; i++){
+    for(int i = 0; i < 16; i++){
         map[i][0].symbol = '#';
-        map[i][49].symbol = '#';
+        map[i][15].symbol = '#';
         map[0][i].symbol = '#';
-        map[49][i].symbol = '#';
+        map[15][i].symbol = '#';
     }
+    
+    //Initialize cursor
+
+    cursor cursor;
+    cursor.pos.x = 1;
+    cursor.pos.y = 1;
+
+    SDL_Rect cursorPos;
+
+    //cursor.pos = {1,1};
+
+    
 
     initPlacement(map, player1, player2);
 
     int currentUnit = 0;
     int turn = 0;
 
-    while(1){
-        
-        if(turn % 2 == 0)            displayRange(player1->army[currentUnit % 10], map);
-        else                         displayRange(player2->army[currentUnit % 10], map);
-        
-        for(int i = 0; i < 50; i++){
-            for(int j = 0; j < 50; j++){
-                printf("%c ", map[i][j].symbol);
-            }
-            printf("\n");
-        }
+    while (!quit)
+    {
+        SDL_WaitEvent(&event);
+ 
+        switch (event.type)
+        {
+        case SDL_QUIT:
+            quit = true;
+            break;
+        case SDL_KEYDOWN:
+            switch (event.key.keysym.sym){
+                case SDLK_DOWN:
+                    cursor.pos.y += 1;
+                    break;
 
-        if (turn % 2 == 0){
-            switch (moveUnit(map, &player1->army[currentUnit % 10])){
-                case 1 : 
-                    currentUnit++;
-                    break;
-                case 2 :
-                    return 0;
-                case 3 :
-                    currentUnit = 0;
-                    turn++;
-                    break;
             }
-            inRange(player1->army[currentUnit % 10], map);
+            
         }
-        else{
-            switch (moveUnit(map, &player2->army[currentUnit % 10])){
-                case 1 : 
-                    currentUnit++;
-                    break;
-                case 2 :
-                    return 0;
-                case 3 :
-                    currentUnit = 0;
-                    turn++;
-                    break;
-            }
-            inRange(player1->army[currentUnit % 10], map);
-        }
+        cursorPos.x = cursor.pos.x * 64;
+        cursorPos.y = cursor.pos.y * 64;
 
-        // Clear the range
-        for(int i = 0; i < 50; i++){
-            for(int j = 0; j < 50; j++){
-                if( map[i][j].symbol == 'R') {
-                    map[i][j].symbol = ' ';
+
+        SDL_Rect screenPos;
+        for(int i = 0; i < 16; i++){
+            for(int j = 0; j < 16; j++){
+                
+                screenPos.x = i * 64;
+                screenPos.y = j * 64;
+                if(map[i][j].symbol == '-'){
+                    SDL_BlitSurface(grass_image, NULL, window, &screenPos);
+                    
+                }
+                if(map[i][j].symbol == '#'){
+                    SDL_BlitSurface(ocean_image, NULL, window, &screenPos);
+                    
+                }
+                if(map[i][j].unit != NULL){
+                    if(map[i][j].unit->type == 0){
+                        SDL_BlitSurface(knight_image, NULL, window, &screenPos);
+                        
+                    }
                 }
             }
         }
-        system("cls");  
+        SDL_BlitSurface(cursor_image, NULL, window, &cursorPos);
+        SDL_Flip(window);
     }
 
-    free(player1->army);
-    free(player1);
-    free(player2->army);
-    free(player2);
+    SDL_FreeSurface(window);
+    SDL_Quit();
     free(map);
-    }
+ 
+    return 0;
+}

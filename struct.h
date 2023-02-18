@@ -28,3 +28,7 @@ typedef struct {
     unit* unit;
     char symbol;
 }cell;
+
+typedef struct {
+    struct position pos;
+}cursor;
