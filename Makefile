@@ -1,2 +1,2 @@
 all:
-	gcc -o game main.c -I include -L lib -lmingw32 -lSDL2main -lSDL2
+	gcc -o game main.c -L lib -lSDL -lSDL_image

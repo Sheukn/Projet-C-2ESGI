@@ -1,42 +1,53 @@
-int moveUnit(cell** map, unit* unit){
-        switch(getchar()){
-            case 'a':
-                if(map[unit->pos.x][unit->pos.y - 1].symbol== ' ' || map[unit->pos.x][unit->pos.y - 1].symbol== 'R'){
-                        map[unit->pos.x][unit->pos.y].symbol = ' ';
-                        unit->pos.y -= 1;
-                        map[unit->pos.x][unit->pos.y].symbol = unit->symbol;
+void moveUnit(cell** map, unit* unit){
+    if (unit->speed > 0){
+        SDL_Event move;
+        SDL_WaitEvent(&move);
+        switch(move.type){
+            case SDL_KEYDOWN:
+                switch(move.key.keysym.sym){
+                    case SDLK_UP:
+                        if(map[unit->pos.x][unit->pos.y - 1].type != '#' && map[unit->pos.x][unit->pos.y - 1].type != '^' && map[unit->pos.x][unit->pos.y - 1].unit == NULL){
+                            if(unit->type == 3 && map[unit->pos.x][unit->pos.y - 1].type == 'F'){
+                                break;
+                            }
+                            map[unit->pos.x][unit->pos.y].unit = NULL;
+                            unit->pos.y -= 1;
+                        };
+                        break;
+                    case SDLK_DOWN:
+                        if(map[unit->pos.x][unit->pos.y + 1].type != '#' && map[unit->pos.x][unit->pos.y + 1].type != '^' && map[unit->pos.x][unit->pos.y + 1].unit == NULL){
+                            if(unit->type == 3 && map[unit->pos.x][unit->pos.y - 1].type == 'F'){
+                                break;
+                            }
+                            map[unit->pos.x][unit->pos.y].unit = NULL;
+                            unit->pos.y += 1;
+                        };
+                        break;
+                    case SDLK_LEFT:
+                        if(map[unit->pos.x - 1][unit->pos.y].type != '#' && map[unit->pos.x - 1][unit->pos.y].type != '^' && map[unit->pos.x - 1][unit->pos.y].unit == NULL){
+                            if(unit->type == 3 && map[unit->pos.x][unit->pos.y - 1].type == 'F'){
+                                break;
+                            }
+                            map[unit->pos.x][unit->pos.y].unit = NULL;
+                            unit->pos.x -= 1;
+                        };
+                        break;
+                    case SDLK_RIGHT:
+                        if(map[unit->pos.x + 1][unit->pos.y].type != '#' && map[unit->pos.x + 1][unit->pos.y].type != '^' && map[unit->pos.x + 1][unit->pos.y].unit == NULL){
+                            if(unit->type == 3 && map[unit->pos.x][unit->pos.y - 1].type == 'F'){
+                                break;
+                            }
+                            map[unit->pos.x][unit->pos.y].unit = NULL;
+                            unit->pos.x += 1;
+                        };
+                        break;
                 }
+                map[unit->pos.x][unit->pos.y].unit = unit;
                 break;
-            case 'd':
-                if(map[unit->pos.x][unit->pos.y + 1].symbol== ' ' || map[unit->pos.x][unit->pos.y + 1].symbol== 'R'){
-                        map[unit->pos.x][unit->pos.y].symbol = ' ';
-                        unit->pos.y += 1;
-                        map[unit->pos.x][unit->pos.y].symbol = unit->symbol;
-                }
-                break;
-            case 'w':
-                if(map[unit->pos.x - 1][unit->pos.y].symbol == ' ' || map[unit->pos.x - 1][unit->pos.y].symbol == 'R'){
-                        map[unit->pos.x][unit->pos.y].symbol = ' ';
-                        unit->pos.x -= 1;
-                        map[unit->pos.x][unit->pos.y].symbol = unit->symbol;
-                }
-                break;
-            case 's':
-                if(map[unit->pos.x + 1][unit->pos.y].symbol == ' ' || map[unit->pos.x + 1][unit->pos.y].symbol == 'R'){
-                        map[unit->pos.x][unit->pos.y].symbol = ' ';
-                        unit->pos.x += 1;
-                        map[unit->pos.x][unit->pos.y].symbol = unit->symbol;
-                    }
-                break;
-
-            case ' ':
-                return 1;
-
-            case 'q':
-                return 2;
-            
-            case 'n':
-                return 3;
-
         }
+        if(map[unit->pos.x][unit->pos.y].type == 'F' && unit->type == 2)
+            unit->speed -= 2;
+        else
+            unit->speed -= 1;
+    }
 }

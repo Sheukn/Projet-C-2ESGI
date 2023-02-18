@@ -39,8 +39,8 @@ void displayRange(unit unit, cell** map){
     //display range
     for(int i = unit.pos.x - unit.range; i <= unit.pos.x + unit.range; i++){
             for(int j = unit.pos.y - unit.range; j <= unit.pos.y + unit.range; j++){
-                if(map[i][j].symbol != '#' && map[i][j].symbol != 'A' && map[i][j].symbol != 'E' && map[i][j].symbol != 'H' && map[i][j].symbol != 'K' && map[i][j].symbol != 'S' && map[i][j].symbol != 'C'){
-                    map[i][j].symbol = 'R' ;
+                if(map[i][j].type != '#' && map[i][j].type != '^'){
+                    //map[i][j].symbol = 'R' ;
                 }
             }
     }
