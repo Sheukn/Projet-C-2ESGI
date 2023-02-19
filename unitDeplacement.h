@@ -1,4 +1,4 @@
-void moveUnit(cell** map, unit* unit){
+int moveUnit(cell** map, unit* unit){
     if (unit->speed > 0){
         SDL_Event move;
         SDL_WaitEvent(&move);
