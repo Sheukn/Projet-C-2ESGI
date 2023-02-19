@@ -6,6 +6,7 @@
 
 #include "struct.h"
 #include "army_init.h"
+#include "display.h"
 #include "unitsPlacements.h"
 #include "unitDeplacement.h"
 #include "combatSystem.h"
@@ -18,15 +19,7 @@ int main(int argc, char *argv[]){
     int Init;
     Init = SDL_Init(SDL_INIT_EVERYTHING);
     SDL_Surface * window ;
-    window = SDL_SetVideoMode(1024, 1024, 32, SDL_HWSURFACE);
-    SDL_Surface * grass_image = SDL_LoadBMP("./ressources/grass.bmp");
-    SDL_Surface * ocean_image = SDL_LoadBMP("./ressources/ocean.bmp");
-    SDL_Surface * knight_image = IMG_Load("./ressources/knight.png");
-    SDL_Surface * archer_image = IMG_Load("./ressources/archer.png");
-    SDL_Surface * catapult_image = IMG_Load("./ressources/catapult.png");
-    SDL_Surface * spearman_image = IMG_Load("./ressources/spearman.png");
-    SDL_Surface * tree_image = IMG_Load("./ressources/tree.png");
-    SDL_Surface * cursor_image = IMG_Load("./ressources/cursor.png");
+    window = SDL_SetVideoMode(1400, 1024, 32, SDL_HWSURFACE);
 
     SDL_Rect position;
     //position.x = (window->w - knight_image->w) / 2;
@@ -63,6 +56,10 @@ int main(int argc, char *argv[]){
         map[0][i].type = '#';
         map[15][i].type = '#';
     }
+
+    //Create forest 'F'
+    map[2][1].type = 'F';
+    map[2][2].type = 'F';
     
     //Initialize cursor
 
@@ -107,54 +104,20 @@ int main(int argc, char *argv[]){
                         if(cursor.pos.x < 15)
                             cursor.pos.x += 1;
                         break;
+                    case SDLK_SPACE:
+                        if(map[cursor.pos.x][cursor.pos.y].unit){
+                            moveUnit(map, map[cursor.pos.x][cursor.pos.y].unit, window, cursor);
+                        }
+                        break;
+
                 }         
         }
         cursorPos.x = cursor.pos.x * 64;
         cursorPos.y = cursor.pos.y * 64;
 
-        moveUnit(map, &player1->army[0]);
-        SDL_Rect screenPos;
-        for(int i = 0; i < 16; i++){
-            for(int j = 0; j < 16; j++){
-                
-                screenPos.x = i * 64;
-                screenPos.y = j * 64;
-                if(map[i][j].type == '-'){
-                    SDL_BlitSurface(grass_image, NULL, window, &screenPos);
-                    
-                }
-                if(map[i][j].type == '#'){
-                    SDL_BlitSurface(ocean_image, NULL, window, &screenPos);
-                    
-                }
-                if(map[i][j].unit != NULL){
-                    if(map[i][j].unit->type == 0){
-                        SDL_BlitSurface(knight_image, NULL, window, &screenPos);
-                        
-                    }
-
-                    switch(map[i][j].unit->type){
-                        case 0:
-                            SDL_BlitSurface(knight_image, NULL, window, &screenPos);
-                            break;
-                        case 1:
-                            SDL_BlitSurface(archer_image, NULL, window, &screenPos);
-                            break;
-                        // case 2: 
-                        //     SDL_BlitSurface(knight_image, NULL, window, &screenPos);
-                        //     break;
-                        case 3:
-                            SDL_BlitSurface(catapult_image, NULL, window, &screenPos);
-                            break;
-                        case 4: 
-                            SDL_BlitSurface(spearman_image, NULL, window, &screenPos);
-                            break;
-                    }
-                }
-            }
-        }
-        SDL_BlitSurface(cursor_image, NULL, window, &cursorPos);
-        SDL_Flip(window);
+        //moveUnit(map, &player1->army[0]);
+        mapActualization(map, window, cursorPos);
+        cellInformationActualization(window, cursorPos, map);
     }
 
     SDL_FreeSurface(window);
