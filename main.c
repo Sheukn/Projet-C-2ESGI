@@ -22,6 +22,10 @@ int main(int argc, char *argv[]){
     SDL_Surface * grass_image = SDL_LoadBMP("./ressources/grass.bmp");
     SDL_Surface * ocean_image = SDL_LoadBMP("./ressources/ocean.bmp");
     SDL_Surface * knight_image = IMG_Load("./ressources/knight.png");
+    SDL_Surface * archer_image = IMG_Load("./ressources/archer.png");
+    SDL_Surface * catapult_image = IMG_Load("./ressources/catapult.png");
+    SDL_Surface * spearman_image = IMG_Load("./ressources/spearman.png");
+    SDL_Surface * tree_image = IMG_Load("./ressources/tree.png");
     SDL_Surface * cursor_image = IMG_Load("./ressources/cursor.png");
 
     SDL_Rect position;
@@ -124,9 +128,27 @@ int main(int argc, char *argv[]){
                     
                 }
                 if(map[i][j].unit != NULL){
-                    if(map[i][j].unit->type == 3){
+                    if(map[i][j].unit->type == 0){
                         SDL_BlitSurface(knight_image, NULL, window, &screenPos);
                         
+                    }
+
+                    switch(map[i][j].unit->type){
+                        case 0:
+                            SDL_BlitSurface(knight_image, NULL, window, &screenPos);
+                            break;
+                        case 1:
+                            SDL_BlitSurface(archer_image, NULL, window, &screenPos);
+                            break;
+                        // case 2: 
+                        //     SDL_BlitSurface(knight_image, NULL, window, &screenPos);
+                        //     break;
+                        case 3:
+                            SDL_BlitSurface(catapult_image, NULL, window, &screenPos);
+                            break;
+                        case 4: 
+                            SDL_BlitSurface(spearman_image, NULL, window, &screenPos);
+                            break;
                     }
                 }
             }
