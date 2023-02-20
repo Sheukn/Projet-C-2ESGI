@@ -100,9 +100,9 @@ int main(int argc, char *argv[]){
                             if(!map[cursor.pos.x][cursor.pos.y].unit->hasAttacked && map[cursor.pos.x][cursor.pos.y].unit->team == turn%2){
                                 displayRange(map[cursor.pos.x][cursor.pos.y].unit, map, window);
                                 if(map[cursor.pos.x][cursor.pos.y].unit->team == 0)
-                                    attackEvent(map[cursor.pos.x][cursor.pos.y].unit, window, map, cursor, turn%2, player2);
+                                    attackEvent(map[cursor.pos.x][cursor.pos.y].unit, window, map, &cursor, turn%2, player2);
                                 else if(map[cursor.pos.x][cursor.pos.y].unit->team == 1)
-                                    attackEvent(map[cursor.pos.x][cursor.pos.y].unit, window, map, cursor, turn%2, player1);
+                                    attackEvent(map[cursor.pos.x][cursor.pos.y].unit, window, map, &cursor, turn%2, player1);
                             }
                         }
                         break;

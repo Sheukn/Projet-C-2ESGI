@@ -79,13 +79,11 @@ void resetSpeed(unit* unit){
     }
 }
 
-
-void attackEvent(unit* attacker, SDL_Surface* window, cell** map, cursor cursorTarget, int turn, player* targetedPlayer){
+void attackEvent(unit* attacker, SDL_Surface* window, cell** map, cursor* cursorTarget, int turn, player* targetedPlayer){
 
     SDL_Event selectTarget;
     cursorTarget->pos.x = attacker->pos.x;
     cursorTarget->pos.y = attacker->pos.y;
-    //SDL_Surface * target_image = IMG_Load("./ressources/cursor.png");
     SDL_Rect squarePos;
     squarePos.x = cursorTarget->pos.x * 64;
     squarePos.y = cursorTarget->pos.y * 64;
@@ -119,9 +117,9 @@ void attackEvent(unit* attacker, SDL_Surface* window, cell** map, cursor cursorT
                                 attacker->hasMoved = true;
                                 return;
                             }
-                            else if(map[cursorTarget.pos.x][cursorTarget.pos.y].unit){
-                                if(isTargetable(attacker, map[cursorTarget.pos.x][cursorTarget.pos.y].unit)){
-                                    attack(attacker, map[cursorTarget.pos.x][cursorTarget.pos.y].unit, targetedPlayer, map);
+                            else if(map[cursorTarget->pos.x][cursorTarget->pos.y].unit){
+                                if(isTargetable(attacker, map[cursorTarget->pos.x][cursorTarget->pos.y].unit)){
+                                    attack(attacker, map[cursorTarget->pos.x][cursorTarget->pos.y].unit, targetedPlayer, map);
                                     attacker->hasAttacked = true;
                                     attacker->hasMoved = true;
                                     return;
