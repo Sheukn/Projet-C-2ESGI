@@ -1,7 +1,8 @@
 void cellInformationActualization(SDL_Surface* window, SDL_Rect cursorPos, cell** map, int turn){
 
     TTF_Init();
-    SDL_Surface * knight_image = IMG_Load("./ressources/knight.png");
+    SDL_Surface * knight_blue_image = IMG_Load("./ressources/KnightBlue.png");
+    SDL_Surface * knight_red_image = IMG_Load("./ressources/KnightRed.png");
     SDL_Surface * archer_blue_image = IMG_Load("./ressources/ArcherBlue.png");
     SDL_Surface * archer_grey_image = IMG_Load("./ressources/ArcherGrey.png");
     SDL_Surface * archer_red_image = IMG_Load("./ressources/ArcherRed.png");
@@ -134,11 +135,11 @@ void cellInformationActualization(SDL_Surface* window, SDL_Rect cursorPos, cell*
         case 0:
             if(map[(cursorPos.x)/64][(cursorPos.y)/64].unit->team == 1){
                 message = TTF_RenderText_Solid(fontUsed, "Homme d'armes", blue);
-                SDL_BlitSurface(knight_image, NULL, window, &unitRect);
+                SDL_BlitSurface(knight_blue_image, NULL, window, &unitRect);
             }
             else{
                 message = TTF_RenderText_Solid(fontUsed, "Homme d'armes", red);
-                SDL_BlitSurface(knight_image, NULL, window, &unitRect);
+                SDL_BlitSurface(knight_red_image, NULL, window, &unitRect);
             }
             break;
         case 1:
@@ -192,7 +193,8 @@ void cellInformationActualization(SDL_Surface* window, SDL_Rect cursorPos, cell*
     }
 
     SDL_Flip(window);
-    SDL_FreeSurface(knight_image);
+    SDL_FreeSurface(knight_blue_image);
+    SDL_FreeSurface(knight_red_image);
     SDL_FreeSurface(archer_blue_image);
     SDL_FreeSurface(archer_red_image);
     SDL_FreeSurface(horsemen_blue_image);
@@ -216,7 +218,9 @@ void mapActualization(cell** map, SDL_Surface* window, SDL_Rect cursorPos, int t
     SDL_Surface * mountain_image = IMG_Load("./ressources/mountain.png");
     SDL_Surface * forest_image = IMG_Load("./ressources/tree.png");
     SDL_Surface * castle_image = IMG_Load("./ressources/castle.png");
-    SDL_Surface * knight_image = IMG_Load("./ressources/knight.png");
+    SDL_Surface * knight_blue_image = IMG_Load("./ressources/KnightBlue.png");
+    SDL_Surface * knight_grey_image = IMG_Load("./ressources/KnightGrey.png");
+    SDL_Surface * knight_red_image = IMG_Load("./ressources/KnightRed.png");
     SDL_Surface * castle_blue_image = IMG_Load("./ressources/bluecastle.png");
     SDL_Surface * castle_red_image = IMG_Load("./ressources/redcastle.png");
     SDL_Surface * archer_blue_image = IMG_Load("./ressources/ArcherBlue.png");
@@ -258,15 +262,18 @@ void mapActualization(cell** map, SDL_Surface* window, SDL_Rect cursorPos, int t
 
             if (map[i][j].unit)
             {
-                if (map[i][j].unit->type == 0)
-                {
-                    SDL_BlitSurface(knight_image, NULL, window, &screenPos);
-                }
-
                 switch (map[i][j].unit->type){
                 case 0:
-                    SDL_BlitSurface(knight_image, NULL, window, &screenPos);
-                    break;
+                if (map[i][j].unit->hasAttacked){
+                    SDL_BlitSurface(knight_grey_image, NULL, window, &screenPos); 
+                }
+                else if(map[i][j].unit->team == 1){
+                    SDL_BlitSurface(knight_blue_image, NULL, window, &screenPos);
+                }
+                else{
+                    SDL_BlitSurface(knight_red_image, NULL, window, &screenPos);
+                }
+                break;
 
 
                 case 1:
@@ -328,7 +335,9 @@ void mapActualization(cell** map, SDL_Surface* window, SDL_Rect cursorPos, int t
     SDL_FreeSurface(mountain_image);
     SDL_FreeSurface(castle_blue_image);
     SDL_FreeSurface(castle_red_image);
-    SDL_FreeSurface(knight_image);
+    SDL_FreeSurface(knight_blue_image);
+    SDL_FreeSurface(knight_grey_image);
+    SDL_FreeSurface(knight_red_image);
     SDL_FreeSurface(archer_grey_image);
     SDL_FreeSurface(archer_blue_image);
     SDL_FreeSurface(archer_red_image);
@@ -344,3 +353,33 @@ void mapActualization(cell** map, SDL_Surface* window, SDL_Rect cursorPos, int t
     SDL_FreeSurface(cursor_image);
     return;
 }
+
+void victory(player* winner, SDL_Surface* window){
+        TTF_Init();
+        TTF_Font* fontUsed = TTF_OpenFont("./font/font.ttf", 30);
+        SDL_Rect textRect;
+
+        SDL_Color blue = {0, 0, 196};
+        SDL_Color red = {196, 0, 0};
+
+        textRect.x = 1100;
+        textRect.y = 750;
+        textRect.w = 300;
+        textRect.h = 150;
+
+        if(winner->id == 1){
+            SDL_Surface * message = TTF_RenderText_Solid(fontUsed, "Blue wins", blue);
+            SDL_BlitSurface(message, NULL, window, &textRect);
+            //sleep(3);
+        }
+        else{
+            SDL_Surface * message = TTF_RenderText_Solid(fontUsed, "Red wins", red);
+            SDL_BlitSurface(message, NULL, window, &textRect);
+            //sleep(3);
+        }
+        SDL_Flip(window);
+        SDL_Delay(5000);
+        SDL_FreeSurface(window);
+        TTF_CloseFont(fontUsed);
+        return;
+    }
