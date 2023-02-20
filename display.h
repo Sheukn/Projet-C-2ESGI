@@ -17,6 +17,7 @@ void cellInformationActualization(SDL_Surface* window, SDL_Rect cursorPos, cell*
     SDL_Surface * ocean_paysage = IMG_Load("./ressources/OceanPaysage.png");
     SDL_Surface * forest_paysage = IMG_Load("./ressources/ForestPaysage.png");
     SDL_Surface * mountain_paysage = IMG_Load("./ressources/MountainPaysage.png");
+    SDL_Surface * castle_paysage = IMG_Load("./ressources/CastlePaysage.png");
 
 
 
@@ -57,6 +58,10 @@ void cellInformationActualization(SDL_Surface* window, SDL_Rect cursorPos, cell*
         break;
     case ('M'):
         SDL_BlitSurface(mountain_paysage, NULL, window, &paysage);
+        break;
+    case ('Y'):
+    case ('Z'):
+        SDL_BlitSurface(castle_paysage, NULL, window, &paysage);
         break;
     }
 
@@ -208,8 +213,12 @@ void cellInformationActualization(SDL_Surface* window, SDL_Rect cursorPos, cell*
 void mapActualization(cell** map, SDL_Surface* window, SDL_Rect cursorPos, int turn){
     SDL_Surface * grass_image = SDL_LoadBMP("./ressources/grass.bmp");
     SDL_Surface * ocean_image = SDL_LoadBMP("./ressources/ocean.bmp");
+    SDL_Surface * mountain_image = IMG_Load("./ressources/mountain.png");
     SDL_Surface * forest_image = IMG_Load("./ressources/tree.png");
+    SDL_Surface * castle_image = IMG_Load("./ressources/castle.png");
     SDL_Surface * knight_image = IMG_Load("./ressources/knight.png");
+    SDL_Surface * castle_blue_image = IMG_Load("./ressources/bluecastle.png");
+    SDL_Surface * castle_red_image = IMG_Load("./ressources/redcastle.png");
     SDL_Surface * archer_blue_image = IMG_Load("./ressources/ArcherBlue.png");
     SDL_Surface * archer_grey_image = IMG_Load("./ressources/ArcherGrey.png");
     SDL_Surface * archer_red_image = IMG_Load("./ressources/ArcherRed.png");
@@ -223,7 +232,6 @@ void mapActualization(cell** map, SDL_Surface* window, SDL_Rect cursorPos, int t
     SDL_Surface * pikemen_grey_image = IMG_Load("./ressources/LancierGrey.png");
     SDL_Surface * pikemen_red_image = IMG_Load("./ressources/LancierRed.png");
     SDL_Surface * cursor_image = IMG_Load("./ressources/cursor.png");
-    SDL_Surface * mountain_image = IMG_Load("./ressources/mountain.png");
     SDL_Rect screenPos;
     for (int i = 0; i < 16; i++){
         for (int j = 0; j < 16; j++){
@@ -241,6 +249,12 @@ void mapActualization(cell** map, SDL_Surface* window, SDL_Rect cursorPos, int t
 
             else if (map[i][j].type == 'M')
                 SDL_BlitSurface(mountain_image, NULL, window, &screenPos);
+
+            else if (map[i][j].type == 'Y')
+                SDL_BlitSurface(castle_blue_image, NULL, window, &screenPos);
+
+            else if (map[i][j].type == 'Z')
+                SDL_BlitSurface(castle_red_image, NULL, window, &screenPos);
 
             if (map[i][j].unit)
             {
@@ -311,6 +325,9 @@ void mapActualization(cell** map, SDL_Surface* window, SDL_Rect cursorPos, int t
     SDL_FreeSurface(grass_image);
     SDL_FreeSurface(ocean_image);
     SDL_FreeSurface(forest_image);
+    SDL_FreeSurface(mountain_image);
+    SDL_FreeSurface(castle_blue_image);
+    SDL_FreeSurface(castle_red_image);
     SDL_FreeSurface(knight_image);
     SDL_FreeSurface(archer_grey_image);
     SDL_FreeSurface(archer_blue_image);
@@ -325,6 +342,5 @@ void mapActualization(cell** map, SDL_Surface* window, SDL_Rect cursorPos, int t
     SDL_FreeSurface(pikemen_grey_image);
     SDL_FreeSurface(pikemen_red_image);
     SDL_FreeSurface(cursor_image);
-    SDL_FreeSurface(mountain_image);
     return;
 }
