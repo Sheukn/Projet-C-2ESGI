@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
+#include <SDL/SDL_ttf.h>
 #include <math.h>
 
 #include "struct.h"
@@ -116,7 +118,9 @@ int main(int argc, char *argv[]){
         }
         cursorPos.x = cursor.pos.x * 64;
         cursorPos.y = cursor.pos.y * 64;
+        if(map[cursor.pos.x][cursor.pos.y].unit){
 
+        }
         //moveUnit(map, &player1->army[0]);
         mapActualization(map, window, cursorPos);
         cellInformationActualization(window, cursorPos, map);
