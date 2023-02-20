@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
+#include <math.h>
 
 #include "struct.h"
 #include "army_init.h"
@@ -106,6 +107,7 @@ int main(int argc, char *argv[]){
                         break;
                     case SDLK_SPACE:
                         if(map[cursor.pos.x][cursor.pos.y].unit){
+                            displayRange(map[cursor.pos.x][cursor.pos.y].unit, map, window);
                             moveUnit(map, map[cursor.pos.x][cursor.pos.y].unit, window, cursor);
                         }
                         break;
