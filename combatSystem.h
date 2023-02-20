@@ -1,11 +1,13 @@
-void attack(unit* attacker , unit* target){
+void attack(unit* attacker , unit* target, player* targetedPlayer, cell** map){
     if (attacker->type == target->weak)
         target->hp -= attacker->atk * 2 - target->def;
     else
         target->hp -= attacker->atk - target->def;
-
-    if (target->hp <= 0)
-        target->alive = 0;
+    if (target->hp <= 0){
+        target->alive = false;
+        map[target->pos.x][target->pos.y].unit = NULL;
+        targetedPlayer->remaining_units--;
+    }
 }
 
 int isTargetable(unit* attacker, unit* target){
@@ -77,12 +79,11 @@ void resetSpeed(unit* unit){
     }
 }
 
-void attackEvent(unit* attacker, SDL_Surface* window, cell** map, cursor *cursorTarget, int turn){
+void attackEvent(unit* attacker, SDL_Surface* window, cell** map, cursor* cursorTarget, int turn, player* targetedPlayer){
 
     SDL_Event selectTarget;
     cursorTarget->pos.x = attacker->pos.x;
     cursorTarget->pos.y = attacker->pos.y;
-    //SDL_Surface * target_image = IMG_Load("./ressources/cursor.png");
     SDL_Rect squarePos;
     squarePos.x = cursorTarget->pos.x * 64;
     squarePos.y = cursorTarget->pos.y * 64;
@@ -118,7 +119,7 @@ void attackEvent(unit* attacker, SDL_Surface* window, cell** map, cursor *cursor
                             }
                             else if(map[cursorTarget->pos.x][cursorTarget->pos.y].unit){
                                 if(isTargetable(attacker, map[cursorTarget->pos.x][cursorTarget->pos.y].unit)){
-                                    attack(attacker, map[cursorTarget->pos.x][cursorTarget->pos.y].unit);
+                                    attack(attacker, map[cursorTarget->pos.x][cursorTarget->pos.y].unit, targetedPlayer, map);
                                     attacker->hasAttacked = true;
                                     attacker->hasMoved = true;
                                     return;
