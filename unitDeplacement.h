@@ -1,83 +1,79 @@
-void moveUnit(cell** map, unit* unit, SDL_Surface* window, cursor cursor ){
+void moveUnit(cell** map, unit* unit, SDL_Surface* window, cursor* cursor, int turn){
     SDL_Event move;
     SDL_Rect screenPos;
     SDL_Rect oldPos;
+    bool notMoved;
     while (unit->speed > 0){
         SDL_WaitEvent(&move);
         screenPos.x = unit->pos.x * 64;
         screenPos.y = unit->pos.y * 64;
+        notMoved = true;
         switch(move.type){
             case SDL_KEYDOWN:
                 switch(move.key.keysym.sym){
                     case SDLK_UP:
-                        if(map[unit->pos.x][unit->pos.y - 1].type != '#' && map[unit->pos.x][unit->pos.y - 1].type != '^' && map[unit->pos.x][unit->pos.y - 1].unit == NULL){
-                            if(unit->type == 3 && map[unit->pos.x][unit->pos.y - 1].type == 'F'){
-                                break;
-                            }
+                        if((map[unit->pos.x][unit->pos.y - 1].type != '#' && map[unit->pos.x][unit->pos.y - 1].type != 'M' && map[unit->pos.x][unit->pos.y - 1].unit == NULL) && !(unit->type == 3 && map[unit->pos.x][unit->pos.y - 1].type == 'F')){
                             map[unit->pos.x][unit->pos.y].unit = NULL;
                             unit->pos.y -= 1;
-                            if(cursor.pos.y > 0)
-                                cursor.pos.y -= 1;
+                            notMoved = false;
+                            if(cursor->pos.y > 0)
+                                cursor->pos.y -= 1;
                             
                         }
-                        if(map[unit->pos.x][unit->pos.y].type == 'F' && unit->type == 2)
+                        if((map[unit->pos.x][unit->pos.y].type == 'F' && unit->type == 2) && !notMoved)
                             unit->speed -= 2;
-                        else
+                        else if (!notMoved)
                             unit->speed -= 1;
                         break;
                     case SDLK_DOWN:
-                        if(map[unit->pos.x][unit->pos.y + 1].type != '#' && map[unit->pos.x][unit->pos.y + 1].type != '^' && map[unit->pos.x][unit->pos.y + 1].unit == NULL){
-                            if(unit->type == 3 && map[unit->pos.x][unit->pos.y - 1].type == 'F'){
-                                break;
-                            }
+                        if((map[unit->pos.x][unit->pos.y + 1].type != '#' && map[unit->pos.x][unit->pos.y + 1].type != 'M' && map[unit->pos.x][unit->pos.y + 1].unit == NULL) && !(unit->type == 3 && map[unit->pos.x][unit->pos.y + 1].type == 'F')){
                             map[unit->pos.x][unit->pos.y].unit = NULL;
                             unit->pos.y += 1;
-                            if(cursor.pos.y < 15)
-                                cursor.pos.y += 1;
+                            notMoved = false;
+                            if(cursor->pos.y < 15)
+                                cursor->pos.y += 1;
                         }
-                        if(map[unit->pos.x][unit->pos.y].type == 'F' && unit->type == 2)
+                        if((map[unit->pos.x][unit->pos.y].type == 'F' && unit->type == 2) && !notMoved)
                             unit->speed -= 2;
-                        else
+                        else if (!notMoved)
                             unit->speed -= 1;
                         break;
                     case SDLK_LEFT:
-                        if(map[unit->pos.x - 1][unit->pos.y].type != '#' && map[unit->pos.x - 1][unit->pos.y].type != '^' && map[unit->pos.x - 1][unit->pos.y].unit == NULL){
-                            if(unit->type == 3 && map[unit->pos.x][unit->pos.y - 1].type == 'F'){
-                                break;
-                            }
+                        if((map[unit->pos.x - 1][unit->pos.y].type != '#' && map[unit->pos.x - 1][unit->pos.y].type != 'M' && map[unit->pos.x - 1][unit->pos.y].unit == NULL) && !(unit->type == 3 && map[unit->pos.x - 1][unit->pos.y].type == 'F')){
                             map[unit->pos.x][unit->pos.y].unit = NULL;
                             unit->pos.x -= 1;
-                            if(cursor.pos.x > 0)
-                                cursor.pos.x -= 1;
+                            notMoved = false;
+                            if(cursor->pos.x > 0)
+                                cursor->pos.x -= 1;
                         }
-                        if(map[unit->pos.x][unit->pos.y].type == 'F' && unit->type == 2)
+                        if((map[unit->pos.x][unit->pos.y].type == 'F' && unit->type == 2) && !notMoved)
                             unit->speed -= 2;
-                        else
+                        else if (!notMoved)
                             unit->speed -= 1;
                         break;
                     case SDLK_RIGHT:
-                        if(map[unit->pos.x + 1][unit->pos.y].type != '#' && map[unit->pos.x + 1][unit->pos.y].type != '^' && map[unit->pos.x + 1][unit->pos.y].unit == NULL){
-                            if(unit->type == 3 && map[unit->pos.x][unit->pos.y - 1].type == 'F'){
-                                break;
-                            }
+                        if((map[unit->pos.x + 1][unit->pos.y].type != '#' && map[unit->pos.x + 1][unit->pos.y].type != 'M' && map[unit->pos.x + 1][unit->pos.y].unit == NULL) && !(unit->type == 3 && map[unit->pos.x + 1][unit->pos.y].type == 'F')){
                             map[unit->pos.x][unit->pos.y].unit = NULL;
                             unit->pos.x += 1;
-                            if(cursor.pos.x < 15)
-                                cursor.pos.x += 1;
+                            notMoved = false;
+                            if(cursor->pos.x < 15)
+                                cursor->pos.x += 1;
                         }
-                        if(map[unit->pos.x][unit->pos.y].type == 'F' && unit->type == 2)
+                        if((map[unit->pos.x][unit->pos.y].type == 'F' && unit->type == 2) && !notMoved)
                             unit->speed -= 2;
-                        else
+                        else if (!notMoved)
                             unit->speed -= 1;
                         break;
                      case SDLK_SPACE:
+                        unit->speed = 0;
+                        map[unit->pos.x][unit->pos.y].unit->hasMoved = true;
                         return;
                 }
                 map[unit->pos.x][unit->pos.y].unit = unit;
                 SDL_Rect cursorPos;
-                cursorPos.x = cursor.pos.x * 64;
-                cursorPos.y = cursor.pos.y * 64;
-                mapActualization(map, window, cursorPos);
+                cursorPos.x = cursor->pos.x * 64;
+                cursorPos.y = cursor->pos.y * 64;
+                mapActualization(map, window, cursorPos, turn);
 
 
                 /*oldPos.x = screenPos.x;
@@ -95,5 +91,6 @@ void moveUnit(cell** map, unit* unit, SDL_Surface* window, cursor cursor ){
                 SDL_Flip(window);*/
         }
     }
+    map[unit->pos.x][unit->pos.y].unit->hasMoved = true;
     return;
 }
