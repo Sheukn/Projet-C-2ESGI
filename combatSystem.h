@@ -3,15 +3,11 @@ void attack(unit* attacker , unit* target, player* targetedPlayer, cell** map){
         target->hp -= attacker->atk * 2 - target->def;
     else
         target->hp -= attacker->atk - target->def;
-
     if (target->hp <= 0){
         target->alive = false;
         map[target->pos.x][target->pos.y].unit = NULL;
         targetedPlayer->remaining_units--;
     }
-        
-        
-    
 }
 
 int isTargetable(unit* attacker, unit* target){
