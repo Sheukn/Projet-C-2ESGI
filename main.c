@@ -90,7 +90,7 @@ int main(int argc, char *argv[]){
 
                             if(!map[cursor.pos.x][cursor.pos.y].unit->hasMoved && map[cursor.pos.x][cursor.pos.y].unit->team == turn%2){
                                 displayRange(map[cursor.pos.x][cursor.pos.y].unit, map, window);
-                                moveUnit(map, map[cursor.pos.x][cursor.pos.y].unit, window, cursor, turn%2);
+                                moveUnit(map, map[cursor.pos.x][cursor.pos.y].unit, window, &cursor, turn%2);
                             }
                         }
                         break;
@@ -99,7 +99,7 @@ int main(int argc, char *argv[]){
                         if(map[cursor.pos.x][cursor.pos.y].unit){
                             if(!map[cursor.pos.x][cursor.pos.y].unit->hasAttacked && map[cursor.pos.x][cursor.pos.y].unit->team == turn%2){
                                 displayRange(map[cursor.pos.x][cursor.pos.y].unit, map, window);
-                                attackEvent(map[cursor.pos.x][cursor.pos.y].unit, window, map, cursor, 1+turn%2);
+                                attackEvent(map[cursor.pos.x][cursor.pos.y].unit, window, map, &cursor, 1+turn%2);
                             }
                         }
                         break;

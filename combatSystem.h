@@ -77,15 +77,15 @@ void resetSpeed(unit* unit){
     }
 }
 
-void attackEvent(unit* attacker, SDL_Surface* window, cell** map, cursor cursorTarget, int turn){
+void attackEvent(unit* attacker, SDL_Surface* window, cell** map, cursor *cursorTarget, int turn){
 
     SDL_Event selectTarget;
-    cursorTarget.pos.x = attacker->pos.x;
-    cursorTarget.pos.y = attacker->pos.y;
+    cursorTarget->pos.x = attacker->pos.x;
+    cursorTarget->pos.y = attacker->pos.y;
     //SDL_Surface * target_image = IMG_Load("./ressources/cursor.png");
     SDL_Rect squarePos;
-    squarePos.x = cursorTarget.pos.x * 64;
-    squarePos.y = cursorTarget.pos.y * 64;
+    squarePos.x = cursorTarget->pos.x * 64;
+    squarePos.y = cursorTarget->pos.y * 64;
 
 
         while (attacker->hasAttacked == false){
@@ -95,30 +95,30 @@ void attackEvent(unit* attacker, SDL_Surface* window, cell** map, cursor cursorT
                 case SDL_KEYDOWN:
                     switch (selectTarget.key.keysym.sym){
                         case SDLK_DOWN:
-                            if(cursorTarget.pos.y < 15)
-                                cursorTarget.pos.y += 1;
+                            if(cursorTarget->pos.y < 15)
+                                cursorTarget->pos.y += 1;
                             break;
                         case SDLK_UP:
-                            if(cursorTarget.pos.y > 0)
-                                cursorTarget.pos.y -= 1;
+                            if(cursorTarget->pos.y > 0)
+                                cursorTarget->pos.y -= 1;
                             break;
                         case SDLK_LEFT:
-                            if(cursorTarget.pos.x > 0)
-                                cursorTarget.pos.x -= 1;
+                            if(cursorTarget->pos.x > 0)
+                                cursorTarget->pos.x -= 1;
                             break;
                         case SDLK_RIGHT:
-                            if(cursorTarget.pos.x < 15)
-                                cursorTarget.pos.x += 1;
+                            if(cursorTarget->pos.x < 15)
+                                cursorTarget->pos.x += 1;
                             break;
                         case SDLK_a:
-                            if(cursorTarget.pos.x == attacker->pos.x && cursorTarget.pos.y == attacker->pos.y){
+                            if(cursorTarget->pos.x == attacker->pos.x && cursorTarget->pos.y == attacker->pos.y){
                                 attacker->hasAttacked = true;
                                 attacker->hasMoved = true;
                                 return;
                             }
-                            else if(map[cursorTarget.pos.x][cursorTarget.pos.y].unit){
-                                if(isTargetable(attacker, map[cursorTarget.pos.x][cursorTarget.pos.y].unit)){
-                                    attack(attacker, map[cursorTarget.pos.x][cursorTarget.pos.y].unit);
+                            else if(map[cursorTarget->pos.x][cursorTarget->pos.y].unit){
+                                if(isTargetable(attacker, map[cursorTarget->pos.x][cursorTarget->pos.y].unit)){
+                                    attack(attacker, map[cursorTarget->pos.x][cursorTarget->pos.y].unit);
                                     attacker->hasAttacked = true;
                                     attacker->hasMoved = true;
                                     return;
@@ -127,8 +127,8 @@ void attackEvent(unit* attacker, SDL_Surface* window, cell** map, cursor cursorT
                     }
             
             }
-            squarePos.x = cursorTarget.pos.x * 64;
-            squarePos.y = cursorTarget.pos.y * 64;
+            squarePos.x = cursorTarget->pos.x * 64;
+            squarePos.y = cursorTarget->pos.y * 64;
         mapActualization(map, window, squarePos, turn);
         }
     }
