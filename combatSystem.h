@@ -1,11 +1,11 @@
-void attack(unit attacker , unit target){
-    if (attacker.type == target.weak)
-        target.hp -= attacker.atk * 2 - target.def;
+void attack(unit* attacker , unit* target){
+    if (attacker->type == target->weak)
+        target->hp -= attacker->atk * 2 - target->def;
     else
-        target.hp -= attacker.atk - target.def;
+        target->hp -= attacker->atk - target->def;
 
-    if (target.hp <= 0)
-        target.alive = 0;
+    if (target->hp <= 0)
+        target->alive = 0;
 }
 
 int isTargetable(unit* attacker, unit* target){
@@ -45,18 +45,62 @@ void resetSpeed(unit* unit){
         case 'K':
         case 'A':
             unit->speed = 3;
+            unit->hasMoved = false;
             break;
         
         case 'S':
             unit->speed = 4;
+            unit->hasMoved = false;
             break;
 
         case 'C':
-            unit->speed = 1;
+            unit->speed = 2;
+            unit->hasMoved = false;
             break;
         
         case 'H':
             unit->speed = 5;
+            unit->hasMoved = false;
             break;
+    }
+}
+
+void attackEvent(unit* attacker, SDL_Surface* window, cell** map){
+
+    SDL_Event selectTarget;
+    cursor cursorTarget;
+    cursorTarget.pos.x = attacker->pos.x;
+    cursorTarget.pos.y = attacker->pos.y;
+    SDL_Surface * target_image = IMG_Load("./ressources/target.png");
+    SDL_Rect squarePos;
+    squarePos.x = cursorTarget.pos.x * 64;
+    squarePos.y = cursorTarget.pos.y * 64;
+    SDL_BlitSurface(target_image, NULL, window, &squarePos);
+
+
+    if(!attacker->hasAttacked){
+        SDL_WaitEvent(&selectTarget);
+        switch (selectTarget.type){
+            case SDL_KEYDOWN:
+                switch (selectTarget.key.keysym.sym){
+                    case SDLK_DOWN:
+                        if(cursorTarget.pos.y < 15)
+                            cursorTarget.pos.y += 1;
+                        break;
+                    case SDLK_UP:
+                        if(cursorTarget.pos.y > 0)
+                            cursorTarget.pos.y -= 1;
+                        break;
+                    case SDLK_LEFT:
+                        if(cursorTarget.pos.x > 0)
+                            cursorTarget.pos.x -= 1;
+                        break;
+                    case SDLK_RIGHT:
+                        if(cursorTarget.pos.x < 15)
+                            cursorTarget.pos.x += 1;
+                        break;
+            }
+            
+        }
     }
 }

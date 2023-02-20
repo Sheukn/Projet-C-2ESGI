@@ -35,11 +35,11 @@ int main(int argc, char *argv[]){
     // Initialize the players
     player* player1;
     player1 = malloc(sizeof(player));
-    init_player(player1, 1);
+    init_player(player1, 0);
 
     player* player2;
     player2 = malloc(sizeof(player));
-    init_player(player2, 2);
+    init_player(player2, 1);
 
     // Create map 16x16 with '-' as empty space
     cell **map;
@@ -110,13 +110,28 @@ int main(int argc, char *argv[]){
                     case SDLK_SPACE:
                         if(map[cursor.pos.x][cursor.pos.y].unit){
 
-                            if(!map[cursor.pos.x][cursor.pos.y].unit->hasMoved && map[cursor.pos.x][cursor.pos.y].unit->team == 1+turn%2){
+                            if(!map[cursor.pos.x][cursor.pos.y].unit->hasMoved && map[cursor.pos.x][cursor.pos.y].unit->team == turn%2){
                                 displayRange(map[cursor.pos.x][cursor.pos.y].unit, map, window);
                                 moveUnit(map, map[cursor.pos.x][cursor.pos.y].unit, window, cursor, 1+turn%2);
                             }
                         }
                         break;
+                    case SDLK_a:
+                        printf("test\n");
+                        attackEvent(map[cursor.pos.x][cursor.pos.y].unit, window, map);
+                        break;
                     case SDLK_e:
+                        for(int i = 0; i < 10;i++){
+                            if(turn%2 == 0 && player1->army[i].alive){
+                                
+                                resetSpeed(&player1->army[i]);
+                            }
+
+                            else if(turn%2 == 1 && player2->army[i].alive){
+                                
+                                resetSpeed(&player2->army[i]);
+                            }
+                        }
                         turn += 1;
                         break;
 

@@ -14,6 +14,7 @@ void init_player(player* player, int id){
             player->army[i].range = 1;
             player->army[i].symbol = 'K';
             player->army[i].alive = 1;
+            player->army[i].hasMoved = false;
         }
 
 
@@ -28,6 +29,7 @@ void init_player(player* player, int id){
             player->army[i].range = 2;
             player->army[i].symbol = 'A';
             player->army[i].alive = 1;
+            player->army[i].hasMoved = false;
         } 
 
 
@@ -42,6 +44,7 @@ void init_player(player* player, int id){
             player->army[i].range = 1;
             player->army[i].symbol = 'H';
             player->army[i].alive = 1;
+            player->army[i].hasMoved = false;
         } 
 
 
@@ -52,10 +55,11 @@ void init_player(player* player, int id){
             player->army[i].atk = 70;
             player->army[i].def = 0;
             player->army[i].weak = 2; // Weak against horseman
-            player->army[i].speed = 1;
-            player->army[i].range = 5;
+            player->army[i].speed = 2;
+            player->army[i].range = 3;
             player->army[i].symbol = 'C';
             player->army[i].alive = 1;
+            player->army[i].hasMoved = false;
         } 
         else { // Spearman
             player->army[i].team = id;
@@ -68,6 +72,7 @@ void init_player(player* player, int id){
             player->army[i].range = 1;
             player->army[i].symbol = 'S';
             player->army[i].alive = 1;
+            player->army[i].hasMoved = false;
         }
     }
 }

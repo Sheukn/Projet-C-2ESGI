@@ -217,6 +217,7 @@ void mapActualization(cell** map, SDL_Surface* window, SDL_Rect cursorPos, int t
     SDL_Surface * catapult_image = IMG_Load("./ressources/catapult.png");
     SDL_Surface * spearman_image = IMG_Load("./ressources/spearman.png");
     SDL_Surface * cursor_image = IMG_Load("./ressources/cursor.png");
+    
     SDL_Rect screenPos;
     for (int i = 0; i < 16; i++){
         for (int j = 0; j < 16; j++){
