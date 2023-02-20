@@ -15,7 +15,6 @@ void init_player(player* player, int id){
             player->army[i].symbol = 'K';
             player->army[i].alive = 1;
             player->army[i].hasMoved = false;
-            player->army[i].hasAttacked = false;
         }
 
 
@@ -31,7 +30,6 @@ void init_player(player* player, int id){
             player->army[i].symbol = 'A';
             player->army[i].alive = 1;
             player->army[i].hasMoved = false;
-            player->army[i].hasAttacked = false;
         } 
 
 
@@ -47,7 +45,6 @@ void init_player(player* player, int id){
             player->army[i].symbol = 'H';
             player->army[i].alive = 1;
             player->army[i].hasMoved = false;
-            player->army[i].hasAttacked = false;
         } 
 
 
@@ -63,7 +60,6 @@ void init_player(player* player, int id){
             player->army[i].symbol = 'C';
             player->army[i].alive = 1;
             player->army[i].hasMoved = false;
-            player->army[i].hasAttacked = false;
         } 
         else { // Spearman
             player->army[i].team = id;
@@ -77,7 +73,6 @@ void init_player(player* player, int id){
             player->army[i].symbol = 'S';
             player->army[i].alive = 1;
             player->army[i].hasMoved = false;
-            player->army[i].hasAttacked = false;
         }
     }
 }
