@@ -1,30 +1,21 @@
-void fight(unit attacker , unit defender){
-    if (attacker.type == defender.weak)
-        defender.hp -= attacker.atk * 2 - defender.def;
+void attack(unit attacker , unit target){
+    if (attacker.type == target.weak)
+        target.hp -= attacker.atk * 2 - target.def;
     else
-        defender.hp -= attacker.atk - defender.def;
+        target.hp -= attacker.atk - target.def;
 
-    if (defender.hp <= 0)
-        defender.alive = 0;
+    if (target.hp <= 0)
+        target.alive = 0;
 }
 
-int inRange(unit unit, cell** map){
-    //get unit's position
-    int x = unit.pos.x;
-    int y = unit.pos.y;
-
-
+int isTargetable(unit* attacker, unit* target){
     //check if there is an enemy in range
-    for(int i = unit.pos.x - unit.range; i <= unit.pos.x + unit.range; i++){
-            for(int j = unit.pos.y - unit.range; j <= unit.pos.y + unit.range; j++){
-                if (i == x && j == y)
-                    continue;
-                if(map[i][j].unit != NULL && map[i][j].unit->team != unit.team && map[i][j].unit->alive == 1){
-                    //Beep(523, 100);
-                    return 1;
-            }
-        }
-    }
+    int x = (target->pos.x - attacker->pos.x);
+    int y = (target->pos.y - attacker->pos.y);
+    double distance = sqrt(x*x + y*y);
+
+    if(distance <= attacker->range)
+        return 1;
     return 0;
 }
 
@@ -35,7 +26,7 @@ void displayRange(unit* unit, cell** map, SDL_Surface* window){
     for(int i = unit->pos.x - unit->range; i <= unit->pos.x + unit->range; i++){
             for(int j = unit->pos.y - unit->range; j <= unit->pos.y + unit->range; j++){
                 double distance = sqrt((i-unit->pos.x)*(i-unit->pos.x) + (j-unit->pos.y)*(j-unit->pos.y));
-                if(distance < unit->range){
+                if(distance <= unit->range){
                     squarePos.x = i * 64;
                     squarePos.y = j * 64;
                     SDL_BlitSurface(attackRangeSquare, NULL, window, &squarePos);
@@ -46,4 +37,26 @@ void displayRange(unit* unit, cell** map, SDL_Surface* window){
     SDL_FreeSurface(attackRangeSquare);
     SDL_Flip(window);
     return;
+}
+
+
+void resetSpeed(unit* unit){
+    switch(unit->symbol){
+        case 'K':
+        case 'A':
+            unit->speed = 3;
+            break;
+        
+        case 'S':
+            unit->speed = 4;
+            break;
+
+        case 'C':
+            unit->speed = 1;
+            break;
+        
+        case 'H':
+            unit->speed = 5;
+            break;
+    }
 }
