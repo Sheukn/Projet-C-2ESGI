@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
+#include <SDL/SDL_ttf.h>
 #include <math.h>
 
 #include "struct.h"
@@ -76,7 +78,7 @@ int main(int argc, char *argv[]){
 
     initPlacement(map, player1, player2);
 
-    int currentUnit = 0;
+    //int currentUnit = 0;
     int turn = 0;
 
     while (!quit)
@@ -107,19 +109,27 @@ int main(int argc, char *argv[]){
                         break;
                     case SDLK_SPACE:
                         if(map[cursor.pos.x][cursor.pos.y].unit){
-                            displayRange(map[cursor.pos.x][cursor.pos.y].unit, map, window);
-                            moveUnit(map, map[cursor.pos.x][cursor.pos.y].unit, window, cursor);
+
+                            if(!map[cursor.pos.x][cursor.pos.y].unit->hasMoved && map[cursor.pos.x][cursor.pos.y].unit->team == 1+turn%2){
+                                displayRange(map[cursor.pos.x][cursor.pos.y].unit, map, window);
+                                moveUnit(map, map[cursor.pos.x][cursor.pos.y].unit, window, cursor, 1+turn%2);
+                            }
                         }
+                        break;
+                    case SDLK_e:
+                        turn += 1;
                         break;
 
                 }         
         }
         cursorPos.x = cursor.pos.x * 64;
         cursorPos.y = cursor.pos.y * 64;
+        if(map[cursor.pos.x][cursor.pos.y].unit){
 
+        }
         //moveUnit(map, &player1->army[0]);
-        mapActualization(map, window, cursorPos);
-        cellInformationActualization(window, cursorPos, map);
+        mapActualization(map, window, cursorPos, 1+turn%2);
+        cellInformationActualization(window, cursorPos, map, 1+turn%2);
     }
 
     SDL_FreeSurface(window);

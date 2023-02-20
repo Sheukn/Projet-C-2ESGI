@@ -14,6 +14,7 @@ typedef struct{
     char symbol; // symbol of the unit
     int alive; // 1 = alive | 0 = dead 
     int team; // 1 = player1 | 2 = player2 
+    bool hasMoved; // 1 = Deja agit | 0 = Disponible
     struct position pos; // position of the unit
 }unit;
 

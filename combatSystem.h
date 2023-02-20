@@ -34,6 +34,7 @@ void displayRange(unit* unit, cell** map, SDL_Surface* window){
                 }
             }
     }
+    SDL_FreeSurface(attackRangeSquare);
     SDL_Flip(window);
     return;
 }
