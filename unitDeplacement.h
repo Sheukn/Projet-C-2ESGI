@@ -1,4 +1,4 @@
-void moveUnit(cell** map, unit* unit, SDL_Surface* window, cursor *cursor, int turn){
+void moveUnit(cell** map, unit* unit, SDL_Surface* window, cursor* cursor, int turn){
     SDL_Event move;
     SDL_Rect screenPos;
     SDL_Rect oldPos;

@@ -107,7 +107,7 @@ int main(int argc, char *argv[]){
                         }
                         break;
                     case SDLK_e:
-                        for(int i = 0; i < 10;i++){
+                        for(int i = 0; i < 7 ;i++){
                             if(turn%2 == 0 && player1->army[i].alive){
                                 
                                 resetSpeed(&player1->army[i]);
