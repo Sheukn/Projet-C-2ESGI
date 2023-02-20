@@ -90,7 +90,7 @@ int main(int argc, char *argv[]){
 
                             if(!map[cursor.pos.x][cursor.pos.y].unit->hasMoved && map[cursor.pos.x][cursor.pos.y].unit->team == turn%2){
                                 displayRange(map[cursor.pos.x][cursor.pos.y].unit, map, window);
-                                moveUnit(map, map[cursor.pos.x][cursor.pos.y].unit, window, cursor, turn%2);
+                                moveUnit(map, map[cursor.pos.x][cursor.pos.y].unit, window, &cursor, turn%2);
                             }
                         }
                         break;
@@ -99,12 +99,15 @@ int main(int argc, char *argv[]){
                         if(map[cursor.pos.x][cursor.pos.y].unit){
                             if(!map[cursor.pos.x][cursor.pos.y].unit->hasAttacked && map[cursor.pos.x][cursor.pos.y].unit->team == turn%2){
                                 displayRange(map[cursor.pos.x][cursor.pos.y].unit, map, window);
-                                attackEvent(map[cursor.pos.x][cursor.pos.y].unit, window, map, cursor, 1+turn%2);
+                                if(map[cursor.pos.x][cursor.pos.y].unit->team == 0)
+                                    attackEvent(map[cursor.pos.x][cursor.pos.y].unit, window, map, cursor, turn%2, player2);
+                                else if(map[cursor.pos.x][cursor.pos.y].unit->team == 1)
+                                    attackEvent(map[cursor.pos.x][cursor.pos.y].unit, window, map, cursor, turn%2, player1);
                             }
                         }
                         break;
                     case SDLK_e:
-                        for(int i = 0; i < 10;i++){
+                        for(int i = 0; i < 7 ;i++){
                             if(turn%2 == 0 && player1->army[i].alive){
                                 
                                 resetSpeed(&player1->army[i]);
@@ -127,6 +130,16 @@ int main(int argc, char *argv[]){
         }
         mapActualization(map, window, cursorPos, turn%2);
         cellInformationActualization(window, cursorPos, map, turn%2);
+
+        // Check if a player has lost
+        if(player1->remaining_units == 0){
+            printf("Player 1 wins\n");
+            quit = true;
+        }
+        else if(player2->remaining_units == 0){
+            printf("Player 2 wins\n");
+            quit = true;
+        }
     }
 
     SDL_FreeSurface(window);

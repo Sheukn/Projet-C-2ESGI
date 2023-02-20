@@ -1,4 +1,4 @@
-void moveUnit(cell** map, unit* unit, SDL_Surface* window, cursor cursor, int turn){
+void moveUnit(cell** map, unit* unit, SDL_Surface* window, cursor* cursor, int turn){
     SDL_Event move;
     SDL_Rect screenPos;
     SDL_Rect oldPos;
@@ -16,8 +16,8 @@ void moveUnit(cell** map, unit* unit, SDL_Surface* window, cursor cursor, int tu
                             map[unit->pos.x][unit->pos.y].unit = NULL;
                             unit->pos.y -= 1;
                             notMoved = false;
-                            if(cursor.pos.y > 0)
-                                cursor.pos.y -= 1;
+                            if(cursor->pos.y > 0)
+                                cursor->pos.y -= 1;
                             
                         }
                         if((map[unit->pos.x][unit->pos.y].type == 'F' && unit->type == 2) && !notMoved)
@@ -30,8 +30,8 @@ void moveUnit(cell** map, unit* unit, SDL_Surface* window, cursor cursor, int tu
                             map[unit->pos.x][unit->pos.y].unit = NULL;
                             unit->pos.y += 1;
                             notMoved = false;
-                            if(cursor.pos.y < 15)
-                                cursor.pos.y += 1;
+                            if(cursor->pos.y < 15)
+                                cursor->pos.y += 1;
                         }
                         if((map[unit->pos.x][unit->pos.y].type == 'F' && unit->type == 2) && !notMoved)
                             unit->speed -= 2;
@@ -43,8 +43,8 @@ void moveUnit(cell** map, unit* unit, SDL_Surface* window, cursor cursor, int tu
                             map[unit->pos.x][unit->pos.y].unit = NULL;
                             unit->pos.x -= 1;
                             notMoved = false;
-                            if(cursor.pos.x > 0)
-                                cursor.pos.x -= 1;
+                            if(cursor->pos.x > 0)
+                                cursor->pos.x -= 1;
                         }
                         if((map[unit->pos.x][unit->pos.y].type == 'F' && unit->type == 2) && !notMoved)
                             unit->speed -= 2;
@@ -56,8 +56,8 @@ void moveUnit(cell** map, unit* unit, SDL_Surface* window, cursor cursor, int tu
                             map[unit->pos.x][unit->pos.y].unit = NULL;
                             unit->pos.x += 1;
                             notMoved = false;
-                            if(cursor.pos.x < 15)
-                                cursor.pos.x += 1;
+                            if(cursor->pos.x < 15)
+                                cursor->pos.x += 1;
                         }
                         if((map[unit->pos.x][unit->pos.y].type == 'F' && unit->type == 2) && !notMoved)
                             unit->speed -= 2;
@@ -71,8 +71,8 @@ void moveUnit(cell** map, unit* unit, SDL_Surface* window, cursor cursor, int tu
                 }
                 map[unit->pos.x][unit->pos.y].unit = unit;
                 SDL_Rect cursorPos;
-                cursorPos.x = cursor.pos.x * 64;
-                cursorPos.y = cursor.pos.y * 64;
+                cursorPos.x = cursor->pos.x * 64;
+                cursorPos.y = cursor->pos.y * 64;
                 mapActualization(map, window, cursorPos, turn);
 
 

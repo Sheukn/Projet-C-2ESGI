@@ -10,7 +10,7 @@ void init_player(player* player, int id){
             player->army[i].atk = 40;
             player->army[i].def = 25;
             player->army[i].weak = 1; // Weak against archer
-            player->army[i].speed = 3;
+            player->army[i].speed = 50;
             player->army[i].range = 1;
             player->army[i].symbol = 'K';
             player->army[i].alive = 1;
