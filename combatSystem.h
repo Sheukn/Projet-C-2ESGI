@@ -6,16 +6,9 @@ void attack(unit* attacker , unit* target){
 
     if (target->hp <= 0)
         target->alive = 0;
-    
-    if
 }
 
 int isTargetable(unit* attacker, unit* target){
-
-    if(attacker->team == target->team){
-        return 0;
-    }
-
     //check if there is an enemy in range
     int x = (target->pos.x - attacker->pos.x);
     int y = (target->pos.y - attacker->pos.y);
@@ -32,9 +25,6 @@ void displayRange(unit* unit, cell** map, SDL_Surface* window){
     SDL_Rect squarePos;
     for(int i = unit->pos.x - unit->range; i <= unit->pos.x + unit->range; i++){
             for(int j = unit->pos.y - unit->range; j <= unit->pos.y + unit->range; j++){
-                if(i == unit->pos.x && j == unit->pos.y){
-                    continue;
-                }
                 double distance = sqrt((i-unit->pos.x)*(i-unit->pos.x) + (j-unit->pos.y)*(j-unit->pos.y));
                 if(distance <= unit->range){
                     squarePos.x = i * 64;
@@ -56,81 +46,61 @@ void resetSpeed(unit* unit){
         case 'A':
             unit->speed = 3;
             unit->hasMoved = false;
-            unit->hasAttacked = false;
             break;
         
         case 'S':
             unit->speed = 4;
             unit->hasMoved = false;
-            unit->hasAttacked = false;
             break;
 
         case 'C':
             unit->speed = 2;
             unit->hasMoved = false;
-            unit->hasAttacked = false;
             break;
         
         case 'H':
             unit->speed = 5;
             unit->hasMoved = false;
-            unit->hasAttacked = false;
             break;
     }
 }
 
-void attackEvent(unit* attacker, SDL_Surface* window, cell** map, cursor cursorTarget, int turn){
+void attackEvent(unit* attacker, SDL_Surface* window, cell** map){
 
     SDL_Event selectTarget;
+    cursor cursorTarget;
     cursorTarget.pos.x = attacker->pos.x;
     cursorTarget.pos.y = attacker->pos.y;
-    //SDL_Surface * target_image = IMG_Load("./ressources/cursor.png");
+    SDL_Surface * target_image = IMG_Load("./ressources/target.png");
     SDL_Rect squarePos;
     squarePos.x = cursorTarget.pos.x * 64;
     squarePos.y = cursorTarget.pos.y * 64;
+    SDL_BlitSurface(target_image, NULL, window, &squarePos);
 
 
-        while (attacker->hasAttacked == false){
-            displayRange(map[attacker->pos.x][attacker->pos.y].unit, map, window);
-            SDL_WaitEvent(&selectTarget);
-            switch (selectTarget.type){
-                case SDL_KEYDOWN:
-                    switch (selectTarget.key.keysym.sym){
-                        case SDLK_DOWN:
-                            if(cursorTarget.pos.y < 15)
-                                cursorTarget.pos.y += 1;
-                            break;
-                        case SDLK_UP:
-                            if(cursorTarget.pos.y > 0)
-                                cursorTarget.pos.y -= 1;
-                            break;
-                        case SDLK_LEFT:
-                            if(cursorTarget.pos.x > 0)
-                                cursorTarget.pos.x -= 1;
-                            break;
-                        case SDLK_RIGHT:
-                            if(cursorTarget.pos.x < 15)
-                                cursorTarget.pos.x += 1;
-                            break;
-                        case SDLK_a:
-                            if(cursorTarget.pos.x == attacker->pos.x && cursorTarget.pos.y == attacker->pos.y){
-                                attacker->hasAttacked = true;
-                                attacker->hasMoved = true;
-                                return;
-                            }
-                            else if(map[cursorTarget.pos.x][cursorTarget.pos.y].unit){
-                                if(isTargetable(attacker, map[cursorTarget.pos.x][cursorTarget.pos.y].unit)){
-                                    attack(attacker, map[cursorTarget.pos.x][cursorTarget.pos.y].unit);
-                                    attacker->hasAttacked = true;
-                                    attacker->hasMoved = true;
-                                    return;
-                                }
-                            }
-                    }
-            
+    if(!attacker->hasAttacked){
+        SDL_WaitEvent(&selectTarget);
+        switch (selectTarget.type){
+            case SDL_KEYDOWN:
+                switch (selectTarget.key.keysym.sym){
+                    case SDLK_DOWN:
+                        if(cursorTarget.pos.y < 15)
+                            cursorTarget.pos.y += 1;
+                        break;
+                    case SDLK_UP:
+                        if(cursorTarget.pos.y > 0)
+                            cursorTarget.pos.y -= 1;
+                        break;
+                    case SDLK_LEFT:
+                        if(cursorTarget.pos.x > 0)
+                            cursorTarget.pos.x -= 1;
+                        break;
+                    case SDLK_RIGHT:
+                        if(cursorTarget.pos.x < 15)
+                            cursorTarget.pos.x += 1;
+                        break;
             }
-            squarePos.x = cursorTarget.pos.x * 64;
-            squarePos.y = cursorTarget.pos.y * 64;
-        mapActualization(map, window, squarePos, turn);
+            
         }
     }
+}

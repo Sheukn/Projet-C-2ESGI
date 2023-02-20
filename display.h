@@ -53,7 +53,7 @@ void cellInformationActualization(SDL_Surface* window, SDL_Rect cursorPos, cell*
     case ('F'):
         SDL_BlitSurface(forest_paysage, NULL, window, &paysage);
         break;
-    case ('^'):
+    case ('M'):
         SDL_BlitSurface(mountain_paysage, NULL, window, &paysage);
         break;
     }
@@ -206,7 +206,7 @@ void cellInformationActualization(SDL_Surface* window, SDL_Rect cursorPos, cell*
 void mapActualization(cell** map, SDL_Surface* window, SDL_Rect cursorPos, int turn){
     SDL_Surface * grass_image = SDL_LoadBMP("./ressources/grass.bmp");
     SDL_Surface * ocean_image = SDL_LoadBMP("./ressources/ocean.bmp");
-    SDL_Surface * forest_image = SDL_LoadBMP("./ressources/forest.bmp");
+    SDL_Surface * forest_image = IMG_Load("./ressources/tree.png");
     SDL_Surface * knight_image = IMG_Load("./ressources/knight.png");
     SDL_Surface * archer_blue_image = IMG_Load("./ressources/ArcherBlue.png");
     SDL_Surface * archer_grey_image = IMG_Load("./ressources/ArcherGrey.png");
@@ -217,7 +217,7 @@ void mapActualization(cell** map, SDL_Surface* window, SDL_Rect cursorPos, int t
     SDL_Surface * catapult_image = IMG_Load("./ressources/catapult.png");
     SDL_Surface * spearman_image = IMG_Load("./ressources/spearman.png");
     SDL_Surface * cursor_image = IMG_Load("./ressources/cursor.png");
-    
+    SDL_Surface * mountain_image = IMG_Load("./ressources/mountain.png");
     SDL_Rect screenPos;
     for (int i = 0; i < 16; i++){
         for (int j = 0; j < 16; j++){
@@ -225,18 +225,17 @@ void mapActualization(cell** map, SDL_Surface* window, SDL_Rect cursorPos, int t
             screenPos.x = i * 64;
             screenPos.y = j * 64;
             if (map[i][j].type == '-')
-            {
                 SDL_BlitSurface(grass_image, NULL, window, &screenPos);
-            }
+
             else if (map[i][j].type == '#')
-            {
                 SDL_BlitSurface(ocean_image, NULL, window, &screenPos);
-            }
 
             else if (map[i][j].type == 'F')
-            {
                 SDL_BlitSurface(forest_image, NULL, window, &screenPos);
-            }
+
+            else if (map[i][j].type == 'M')
+                SDL_BlitSurface(mountain_image, NULL, window, &screenPos);
+
             if (map[i][j].unit)
             {
                 if (map[i][j].unit->type == 0)
@@ -300,5 +299,6 @@ void mapActualization(cell** map, SDL_Surface* window, SDL_Rect cursorPos, int t
     SDL_FreeSurface(catapult_image);
     SDL_FreeSurface(spearman_image);
     SDL_FreeSurface(cursor_image);
+    SDL_FreeSurface(mountain_image);
     return;
 }

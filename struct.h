@@ -28,7 +28,7 @@ typedef struct {
 
 typedef struct {
     unit* unit;
-    char type; // - = grass | # = water | F = forest | ^ = mountain
+    char type; // - = grass | # = water | F = forest | M = mountain
 }cell;
 
 typedef struct {
