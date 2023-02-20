@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include <unistd.h>
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 #include <SDL/SDL_ttf.h>
@@ -57,7 +58,7 @@ int main(int argc, char *argv[]){
     initPlacement(map, player1, player2);
 
     //int currentUnit = 0;
-    int turn = 1;
+    int turn = 0;
 
     while (!quit)
     {
@@ -131,20 +132,37 @@ int main(int argc, char *argv[]){
         mapActualization(map, window, cursorPos, turn%2);
         cellInformationActualization(window, cursorPos, map, turn%2);
 
+
         // Check if a player has lost
         if(player1->remaining_units == 0){
-            printf("Player 1 wins\n");
+            victory(player2, window);
             quit = true;
         }
         else if(player2->remaining_units == 0){
-            printf("Player 2 wins\n");
+            victory(player1, window);
             quit = true;
+        }
+
+        if(map[3][1].unit){
+            if(map[3][1].unit->team == 1){
+                victory(player2, window);
+                quit = true;
+            }
+            
+        }
+        else if (map[12][14].unit){
+            if (map[12][14].unit->team == 0){
+                victory(player1, window);
+                quit = true;
+            }
+            
         }
     }
 
     SDL_FreeSurface(window);
     SDL_Quit();
     free(map);
+    
  
     return 0;
 }
