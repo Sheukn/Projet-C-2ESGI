@@ -110,24 +110,29 @@ int main(int argc, char *argv[]){
                     case SDLK_SPACE:
                         if(map[cursor.pos.x][cursor.pos.y].unit){
 
-                            if(!map[cursor.pos.x][cursor.pos.y].unit->hasMoved && map[cursor.pos.x][cursor.pos.y].unit->team == turn%2){
-                                displayRange(map[cursor.pos.x][cursor.pos.y].unit, map, window);
+                            if(!map[cursor.pos.x][cursor.pos.y].unit->hasMoved && map[cursor.pos.x][cursor.pos.y].unit->team == 1+turn%2){
+                                
                                 moveUnit(map, map[cursor.pos.x][cursor.pos.y].unit, window, cursor, 1+turn%2);
                             }
                         }
                         break;
                     case SDLK_a:
-                        printf("test\n");
-                        attackEvent(map[cursor.pos.x][cursor.pos.y].unit, window, map);
+                        //printf("test\n");
+                        if(map[cursor.pos.x][cursor.pos.y].unit){
+                            if(!map[cursor.pos.x][cursor.pos.y].unit->hasAttacked && map[cursor.pos.x][cursor.pos.y].unit->team == 1+turn%2){
+                                displayRange(map[cursor.pos.x][cursor.pos.y].unit, map, window);
+                                attackEvent(map[cursor.pos.x][cursor.pos.y].unit, window, map, cursor, 1+turn%2);
+                            }
+                        }
                         break;
                     case SDLK_e:
                         for(int i = 0; i < 10;i++){
-                            if(turn%2 == 0 && player1->army[i].alive){
+                            if(1+turn%2 == 1 && player1->army[i].alive){
                                 
                                 resetSpeed(&player1->army[i]);
                             }
 
-                            else if(turn%2 == 1 && player2->army[i].alive){
+                            else if(1+turn%2 == 2 && player2->army[i].alive){
                                 
                                 resetSpeed(&player2->army[i]);
                             }

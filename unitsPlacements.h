@@ -1,7 +1,7 @@
 void initPlacement(cell** map, player* player1, player* player2){
-    player1->army[6].pos.x = 5;
-    player1->army[6].pos.y = 5;
-    map[player1->army[6].pos.x][player1->army[6].pos.y].unit = &player1->army[6];
+    player1->army[4].pos.x = 5;
+    player1->army[4].pos.y = 5;
+    map[player1->army[4].pos.x][player1->army[4].pos.y].unit = &player1->army[4];
 
     player2->army[0].pos.x = 1;
     player2->army[0].pos.y = 4;
