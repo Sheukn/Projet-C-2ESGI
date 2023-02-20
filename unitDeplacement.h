@@ -12,10 +12,7 @@ void moveUnit(cell** map, unit* unit, SDL_Surface* window, cursor cursor, int tu
             case SDL_KEYDOWN:
                 switch(move.key.keysym.sym){
                     case SDLK_UP:
-                        if(map[unit->pos.x][unit->pos.y - 1].type != '#' && map[unit->pos.x][unit->pos.y - 1].type != 'M' && map[unit->pos.x][unit->pos.y - 1].unit == NULL){
-                            if(unit->type == 3 && map[unit->pos.x][unit->pos.y - 1].type == 'F'){
-                                break;
-                            }
+                        if((map[unit->pos.x][unit->pos.y - 1].type != '#' && map[unit->pos.x][unit->pos.y - 1].type != 'M' && map[unit->pos.x][unit->pos.y - 1].unit == NULL) && !(unit->type == 3 && map[unit->pos.x][unit->pos.y - 1].type == 'F')){
                             map[unit->pos.x][unit->pos.y].unit = NULL;
                             unit->pos.y -= 1;
                             notMoved = false;
@@ -29,10 +26,7 @@ void moveUnit(cell** map, unit* unit, SDL_Surface* window, cursor cursor, int tu
                             unit->speed -= 1;
                         break;
                     case SDLK_DOWN:
-                        if(map[unit->pos.x][unit->pos.y + 1].type != '#' && map[unit->pos.x][unit->pos.y + 1].type != 'M' && map[unit->pos.x][unit->pos.y + 1].unit == NULL){
-                            if(unit->type == 3 && map[unit->pos.x][unit->pos.y - 1].type == 'F'){
-                                break;
-                            }
+                        if((map[unit->pos.x][unit->pos.y + 1].type != '#' && map[unit->pos.x][unit->pos.y + 1].type != 'M' && map[unit->pos.x][unit->pos.y + 1].unit == NULL) && !(unit->type == 3 && map[unit->pos.x][unit->pos.y + 1].type == 'F')){
                             map[unit->pos.x][unit->pos.y].unit = NULL;
                             unit->pos.y += 1;
                             notMoved = false;
@@ -45,10 +39,7 @@ void moveUnit(cell** map, unit* unit, SDL_Surface* window, cursor cursor, int tu
                             unit->speed -= 1;
                         break;
                     case SDLK_LEFT:
-                        if(map[unit->pos.x - 1][unit->pos.y].type != '#' && map[unit->pos.x - 1][unit->pos.y].type != 'M' && map[unit->pos.x - 1][unit->pos.y].unit == NULL){
-                            if(unit->type == 3 && map[unit->pos.x][unit->pos.y - 1].type == 'F'){
-                                break;
-                            }
+                        if((map[unit->pos.x - 1][unit->pos.y].type != '#' && map[unit->pos.x - 1][unit->pos.y].type != 'M' && map[unit->pos.x - 1][unit->pos.y].unit == NULL) && !(unit->type == 3 && map[unit->pos.x - 1][unit->pos.y].type == 'F')){
                             map[unit->pos.x][unit->pos.y].unit = NULL;
                             unit->pos.x -= 1;
                             notMoved = false;
@@ -61,10 +52,7 @@ void moveUnit(cell** map, unit* unit, SDL_Surface* window, cursor cursor, int tu
                             unit->speed -= 1;
                         break;
                     case SDLK_RIGHT:
-                        if(map[unit->pos.x + 1][unit->pos.y].type != '#' && map[unit->pos.x + 1][unit->pos.y].type != 'M' && map[unit->pos.x + 1][unit->pos.y].unit == NULL){
-                            if(unit->type == 3 && map[unit->pos.x][unit->pos.y - 1].type == 'F'){
-                                break;
-                            }
+                        if((map[unit->pos.x + 1][unit->pos.y].type != '#' && map[unit->pos.x + 1][unit->pos.y].type != 'M' && map[unit->pos.x + 1][unit->pos.y].unit == NULL) && !(unit->type == 3 && map[unit->pos.x + 1][unit->pos.y].type == 'F')){
                             map[unit->pos.x][unit->pos.y].unit = NULL;
                             unit->pos.x += 1;
                             notMoved = false;

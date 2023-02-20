@@ -8,8 +8,10 @@ void cellInformationActualization(SDL_Surface* window, SDL_Rect cursorPos, cell*
     SDL_Surface * horsemen_blue_image = IMG_Load("./ressources/CavalierBlue.png");
     SDL_Surface * horsemen_grey_image = IMG_Load("./ressources/CavalierGrey.png");
     SDL_Surface * horsemen_red_image = IMG_Load("./ressources/CavalierRed.png");
-    SDL_Surface * catapult_image = IMG_Load("./ressources/catapult.png");
-    SDL_Surface * spearman_image = IMG_Load("./ressources/spearman.png");
+    SDL_Surface * catapult_blue_image = IMG_Load("./ressources/CatapulteBlue.png");
+    SDL_Surface * catapult_red_image = IMG_Load("./ressources/CatapulteRed.png");
+    SDL_Surface * pikemen_blue_image = IMG_Load("./ressources/LancierBlue.png");
+    SDL_Surface * pikemen_red_image = IMG_Load("./ressources/LancierRed.png");
 
     SDL_Surface * plain_paysage = IMG_Load("./ressources/PlainPaysage.jpg");
     SDL_Surface * ocean_paysage = IMG_Load("./ressources/OceanPaysage.png");
@@ -158,24 +160,24 @@ void cellInformationActualization(SDL_Surface* window, SDL_Rect cursorPos, cell*
         case 3:
             if(map[(cursorPos.x)/64][(cursorPos.y)/64].unit->team == 1){
                 message = TTF_RenderText_Solid(fontUsed, "Catapulte", blue);
-                SDL_BlitSurface(catapult_image, NULL, window, &unitRect);
+                SDL_BlitSurface(catapult_blue_image, NULL, window, &unitRect);
             }
             else{
                 message = TTF_RenderText_Solid(fontUsed, "Catapulte", red);
-                SDL_BlitSurface(catapult_image, NULL, window, &unitRect);
+                SDL_BlitSurface(catapult_red_image, NULL, window, &unitRect);
             }
             break;
         
-        case 4:/*
+        case 4:
             if(map[(cursorPos.x)/64][(cursorPos.y)/64].unit->team == 1){
-                message = TTF_RenderText_Solid(fontUsed, "Cavalier", blue);
-                SDL_BlitSurface(horsemen_blue_image, NULL, window, &unitRect);
+                message = TTF_RenderText_Solid(fontUsed, "Piquier", blue);
+                SDL_BlitSurface(pikemen_blue_image, NULL, window, &unitRect);
             }
             else{
-                message = TTF_RenderText_Solid(fontUsed, "Cavalier", red);
-                SDL_BlitSurface(horsemen_red_image, NULL, window, &unitRect);
+                message = TTF_RenderText_Solid(fontUsed, "Piquier", red);
+                SDL_BlitSurface(pikemen_red_image, NULL, window, &unitRect);
             }
-            */
+            
             break;
         }
 
@@ -186,14 +188,14 @@ void cellInformationActualization(SDL_Surface* window, SDL_Rect cursorPos, cell*
 
     SDL_Flip(window);
     SDL_FreeSurface(knight_image);
-    SDL_FreeSurface(archer_grey_image);
     SDL_FreeSurface(archer_blue_image);
     SDL_FreeSurface(archer_red_image);
-    SDL_FreeSurface(horsemen_grey_image);
     SDL_FreeSurface(horsemen_blue_image);
     SDL_FreeSurface(horsemen_red_image);
-    SDL_FreeSurface(catapult_image);
-    SDL_FreeSurface(spearman_image);
+    SDL_FreeSurface(catapult_blue_image);
+    SDL_FreeSurface(catapult_red_image);
+    SDL_FreeSurface(pikemen_blue_image);
+    SDL_FreeSurface(pikemen_red_image);
     SDL_FreeSurface(plain_paysage);
     SDL_FreeSurface(ocean_paysage);
     SDL_FreeSurface(forest_paysage);
@@ -211,11 +213,15 @@ void mapActualization(cell** map, SDL_Surface* window, SDL_Rect cursorPos, int t
     SDL_Surface * archer_blue_image = IMG_Load("./ressources/ArcherBlue.png");
     SDL_Surface * archer_grey_image = IMG_Load("./ressources/ArcherGrey.png");
     SDL_Surface * archer_red_image = IMG_Load("./ressources/ArcherRed.png");
+    SDL_Surface * catapult_blue_image = IMG_Load("./ressources/CatapulteBlue.png");
+    SDL_Surface * catapult_grey_image = IMG_Load("./ressources/CatapulteGrey.png");
+    SDL_Surface * catapult_red_image = IMG_Load("./ressources/CatapulteRed.png");
     SDL_Surface * horsemen_blue_image = IMG_Load("./ressources/CavalierBlue.png");
     SDL_Surface * horsemen_grey_image = IMG_Load("./ressources/CavalierGrey.png");
     SDL_Surface * horsemen_red_image = IMG_Load("./ressources/CavalierRed.png");
-    SDL_Surface * catapult_image = IMG_Load("./ressources/catapult.png");
-    SDL_Surface * spearman_image = IMG_Load("./ressources/spearman.png");
+    SDL_Surface * pikemen_blue_image = IMG_Load("./ressources/LancierBlue.png");
+    SDL_Surface * pikemen_grey_image = IMG_Load("./ressources/LancierGrey.png");
+    SDL_Surface * pikemen_red_image = IMG_Load("./ressources/LancierRed.png");
     SDL_Surface * cursor_image = IMG_Load("./ressources/cursor.png");
     SDL_Surface * mountain_image = IMG_Load("./ressources/mountain.png");
     SDL_Rect screenPos;
@@ -250,7 +256,7 @@ void mapActualization(cell** map, SDL_Surface* window, SDL_Rect cursorPos, int t
 
 
                 case 1:
-                if (map[i][j].unit->hasMoved){
+                if (map[i][j].unit->hasAttacked){
                     SDL_BlitSurface(archer_grey_image, NULL, window, &screenPos); 
                 }
                 else if(map[i][j].unit->team == 1){
@@ -262,7 +268,7 @@ void mapActualization(cell** map, SDL_Surface* window, SDL_Rect cursorPos, int t
                 break;
 
                 case 2:
-                if (map[i][j].unit->hasMoved){
+                if (map[i][j].unit->hasAttacked){
                     SDL_BlitSurface(horsemen_grey_image, NULL, window, &screenPos); 
                 }
                 else if(map[i][j].unit->team == 1){
@@ -274,11 +280,27 @@ void mapActualization(cell** map, SDL_Surface* window, SDL_Rect cursorPos, int t
                 break;
 
                 case 3:
-                    SDL_BlitSurface(catapult_image, NULL, window, &screenPos);
-                    break;
+                    if (map[i][j].unit->hasAttacked){
+                    SDL_BlitSurface(catapult_grey_image, NULL, window, &screenPos); 
+                }
+                else if(map[i][j].unit->team == 1){
+                    SDL_BlitSurface(catapult_blue_image, NULL, window, &screenPos);
+                }
+                else{
+                    SDL_BlitSurface(catapult_red_image, NULL, window, &screenPos);
+                }
+                break;
                 case 4:
-                    SDL_BlitSurface(spearman_image, NULL, window, &screenPos);
-                    break;
+                    if (map[i][j].unit->hasAttacked){
+                    SDL_BlitSurface(pikemen_grey_image, NULL, window, &screenPos); 
+                }
+                else if(map[i][j].unit->team == 1){
+                    SDL_BlitSurface(pikemen_blue_image, NULL, window, &screenPos);
+                }
+                else{
+                    SDL_BlitSurface(pikemen_red_image, NULL, window, &screenPos);
+                }
+                break;
                 }
             }
         }
@@ -296,8 +318,12 @@ void mapActualization(cell** map, SDL_Surface* window, SDL_Rect cursorPos, int t
     SDL_FreeSurface(horsemen_grey_image);
     SDL_FreeSurface(horsemen_blue_image);
     SDL_FreeSurface(horsemen_red_image);
-    SDL_FreeSurface(catapult_image);
-    SDL_FreeSurface(spearman_image);
+    SDL_FreeSurface(catapult_blue_image);
+    SDL_FreeSurface(catapult_grey_image);
+    SDL_FreeSurface(catapult_red_image);
+    SDL_FreeSurface(pikemen_blue_image);
+    SDL_FreeSurface(pikemen_grey_image);
+    SDL_FreeSurface(pikemen_red_image);
     SDL_FreeSurface(cursor_image);
     SDL_FreeSurface(mountain_image);
     return;

@@ -57,7 +57,7 @@ int main(int argc, char *argv[]){
     initPlacement(map, player1, player2);
 
     //int currentUnit = 0;
-    int turn = 0;
+    int turn = 1;
 
     while (!quit)
     {
@@ -95,8 +95,13 @@ int main(int argc, char *argv[]){
                         }
                         break;
                     case SDLK_a:
-                        printf("test\n");
-                        attackEvent(map[cursor.pos.x][cursor.pos.y].unit, window, map);
+                        //printf("test\n");
+                        if(map[cursor.pos.x][cursor.pos.y].unit){
+                            if(!map[cursor.pos.x][cursor.pos.y].unit->hasAttacked && map[cursor.pos.x][cursor.pos.y].unit->team == turn%2){
+                                displayRange(map[cursor.pos.x][cursor.pos.y].unit, map, window);
+                                attackEvent(map[cursor.pos.x][cursor.pos.y].unit, window, map, cursor, 1+turn%2);
+                            }
+                        }
                         break;
                     case SDLK_e:
                         for(int i = 0; i < 10;i++){
@@ -120,8 +125,8 @@ int main(int argc, char *argv[]){
         if(map[cursor.pos.x][cursor.pos.y].unit){
 
         }
-        mapActualization(map, window, cursorPos, 1+turn%2);
-        cellInformationActualization(window, cursorPos, map, 1+turn%2);
+        mapActualization(map, window, cursorPos, turn%2);
+        cellInformationActualization(window, cursorPos, map, turn%2);
     }
 
     SDL_FreeSurface(window);
