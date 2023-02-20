@@ -28,20 +28,21 @@ int inRange(unit unit, cell** map){
     return 0;
 }
 
-void displayRange(unit unit, cell** map){
-    //get unit's position
-    int x = unit.pos.x;
-    int y = unit.pos.y;
-
-    //get unit's range
-    int range = unit.range;
-
+void displayRange(unit* unit, cell** map, SDL_Surface* window){ 
     //display range
-    for(int i = unit.pos.x - unit.range; i <= unit.pos.x + unit.range; i++){
-            for(int j = unit.pos.y - unit.range; j <= unit.pos.y + unit.range; j++){
-                if(map[i][j].type != '#' && map[i][j].type != '^'){
-                    //map[i][j].symbol = 'R' ;
+    SDL_Surface * attackRangeSquare = IMG_Load("./ressources/redsquare.png");
+    SDL_Rect squarePos;
+    for(int i = unit->pos.x - unit->range; i <= unit->pos.x + unit->range; i++){
+            for(int j = unit->pos.y - unit->range; j <= unit->pos.y + unit->range; j++){
+                double distance = sqrt((i-unit->pos.x)*(i-unit->pos.x) + (j-unit->pos.y)*(j-unit->pos.y));
+                if(distance < unit->range){
+                    squarePos.x = i * 64;
+                    squarePos.y = j * 64;
+                    SDL_BlitSurface(attackRangeSquare, NULL, window, &squarePos);
+
                 }
             }
     }
+    SDL_Flip(window);
+    return;
 }
